@@ -394,7 +394,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/ProjectCareDownload_MEDICAL.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/ProjectCareDownload_MEDICAL_rec.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
