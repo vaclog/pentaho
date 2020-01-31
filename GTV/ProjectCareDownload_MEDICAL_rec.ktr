@@ -487,30 +487,76 @@
       </attribute>
     </attributes>
   </connection>
+  <connection>
+    <name>VOTS BROKER</name>
+    <server>192.168.2.230</server>
+    <type>MARIADB</type>
+    <access>Native</access>
+    <database>run2</database>
+    <port>3306</port>
+    <username>root</username>
+    <password>Encrypted 2be98afc86aa7918ba816fd22d29dacd5</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>PORT_NUMBER</code>
+        <attribute>3306</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
+      </attribute>
+    </attributes>
+  </connection>
   <order>
     <hop>
       <from>Query General</from>
-      <to>Sort rows</to>
+      <to>Order x Clave</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows</from>
+      <from>Order x Clave</from>
       <to>Merge Join</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Articulos</from>
-      <to>Sort rows 2</to>
+      <to>Orden x Clave</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows 2</from>
+      <from>Orden x Clave</from>
       <to>Merge Join</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Calculator</from>
-      <to>Microsoft Excel Output</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -519,13 +565,28 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
+      <from>Calculos</from>
+      <to>Merge Join 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Calculator</from>
+      <to>Microsoft Excel Output</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
       <from>Merge Join 2</from>
+      <to>Merge Join 2 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Merge Join 2 2</from>
       <to>Calculator</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Calculos</from>
-      <to>Merge Join 2</to>
+      <from>Calculos Otros Gastos</from>
+      <to>Merge Join 2 2</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -540,36 +601,53 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>VOTS 4PL</connection>
-    <sql>  
-  select concat(ai.tripli, ai.artic, '') as clave, ai.tripli as articulo_operacion, 
+    <connection>VOTS BROKER</connection>
+    <sql>select concat(oi.numoppreembarque, ai.artic, rel.id_sku_4pl, '') as clave,
+		rel.id_sku_4pl,
+		 ai.tripli as articulo_operacion, 
 		ai.canti as  articulo_cantidad, 
 		ai.artic as articulo_codigo, 
-		sum(ai.fobaju) as articulo_fob , 
-        sum(ai.ecflete* ai.canti) as articulo_flete,
-        sum(ai.ecseguro * ai.canti) as articulo_seguro
-  from artici ai
-  where ai.tripli IN (
+		ai.id_artici,
+		oi.codfob,
+		if( oi.codfob = 'PES', sum(ai.fobaju) / oi.tipcamofi, sum(ai.fobaju)) as articulo_fob , 
+		if( oi.codfob = 'PES', sum(ai.fobaju)/ ai.canti / oi.tipcamofi, sum(ai.fobaju) / ai.canti) as articulo_fob_unit , 
+        sum(ai.ecflete * ai.canti) as articulo_flete,
+        sum(ai.ecflete ) as articulo_flete_unit,
 
-	SELECT oi.tripli
-      FROM operai oi
-     
+        if( oi.codfob = 'PES', sum(ai.ecseguro * ai.canti) / oi.tipcamofi, sum(ai.ecseguro * ai.canti)) as articulo_seguro,
+		if( oi.codfob = 'PES', sum(ai.ecseguro ) /oi.tipcamofi , sum(ai.ecseguro)) as articulo_seguro_unit
 		
-/*	where oi.feccar >=  str_to_date(${fecha_desde}, '%Y-%m-%d') 
+		, concat(ai.descri) as 'ProductDesc'
+		, concat(uom.lummuntmsr) as 'TxnQtyUOM' 
+		
+		, (ai.ecderechos + 0) as 'LineDuty'
+		, (ai.canti + 0) as 'TxnQty'
+		
+		, if( ai.ecderechos > 0, ai.porder, 0) as 'AdValoremDutyRate'
+		
+	
+from (select * from operai oi 
+
+	
+	where oi.feccar >=  str_to_date('2019-10-01', '%Y-%m-%d') 
+	and oi.feccar &lt;= str_to_date('2019-10-31', '%Y-%m-%d') 
+	and oi.idcliente = 65
+
+
+	
+
+and year(oi.fecini)>=2016 and oi.idcliente=65) oi 
+LEFT JOIN artici ai on oi.tripli=ai.tripli
+INNER join relacion_artic_rva_4pl rel on rel.id_sku_rva_broker = ai.id_artici
+
+LEFT JOIN unidades uom on uom.kunfac = ai.kunfac
+where ai.fecbaja='0000-00-00' 
+	
+group by clave;
+  /*	where oi.feccar >=  str_to_date(${fecha_desde}, '%Y-%m-%d') 
 	and oi.feccar &lt;= str_to_date(${fecha_hasta}, '%Y-%m-%d') 
 	and oi.idcliente = ${cliente_id}
-*/
-	where oi.feccar >=  str_to_date('2019-08-01', '%Y-%m-%d') 
-	and oi.feccar &lt;= str_to_date('2019-08-31', '%Y-%m-%d') 
-	and oi.idcliente = 1521
-
-
-		)
-and ai.canti > 0
-  group by ai.tripli, ai.artic
-
-order by ai.artic
-  </sql>
+*/</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -583,8 +661,8 @@ order by ai.artic
       </output>
     </remotesteps>
     <GUI>
-      <xloc>176</xloc>
-      <yloc>224</yloc>
+      <xloc>112</xloc>
+      <yloc>176</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -614,6 +692,51 @@ order by ai.artic
       <grouping_symbol/>
       <currency_symbol/>
     </calculation>
+    <calculation>
+      <field_name>UnitValue</field_name>
+      <calc_type>DIVIDE</calc_type>
+      <field_a>Valor sujeto a impuesto (valor CIF) para esta línea de partida arancelaria</field_a>
+      <field_b>TxnQty</field_b>
+      <field_c/>
+      <value_type>Number</value_type>
+      <value_length>-1</value_length>
+      <value_precision>2</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>Valor de impuesto pago para esta línea de partida arancelaria</field_name>
+      <calc_type>MULTIPLY</calc_type>
+      <field_a>LineDuty</field_a>
+      <field_b>TxnQty</field_b>
+      <field_c/>
+      <value_type>Number</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>AddlLineDutyUnit</field_name>
+      <calc_type>DIVIDE</calc_type>
+      <field_a>AddlLineDuty</field_a>
+      <field_b>TxnQty</field_b>
+      <field_c/>
+      <value_type>Number</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -622,8 +745,8 @@ order by ai.artic
       </output>
     </remotesteps>
     <GUI>
-      <xloc>704</xloc>
-      <yloc>96</yloc>
+      <xloc>720</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -642,8 +765,9 @@ order by ai.artic
     <sql>select calculo.clave, 
 	sum(calculo.DetalleGastosxFacturaxOperacionxArticulo4pl_importe) as suma_articulo_gasto_local, 
 	sum(calculo.DetalleGastosxFacturaxOperacionxArticulo4pl_importe_dolares) as 'Valor de impuesto pago para esta línea de partida arancelaria'
+
 from (select 
-concat(o.tripli, arti.artic) as clave,
+concat( o.tripli, arti.artic, arti.id_artici) as clave,
 a.idfactura_gasto,a.idgasto,a.id_artici,
  case when f.idmoneda='PES' THEN a.importe ELSE a.importe*o.tipcamofi end as DetalleGastosxFacturaxOperacionxArticulo4pl_importe,
  case when f.idmoneda='DOL' then a.importe else a.importe/o.tipcamofi end as DetalleGastosxFacturaxOperacionxArticulo4pl_importe_dolares
@@ -652,10 +776,12 @@ inner join 4pl_factura_gasto g on g.id=a.idfactura_gasto
 inner join 4pl_factura f on f.id=g.idfactura
 inner join artici arti on arti.id_artici=a.id_artici
 inner join operai o on o.tripli=arti.tripli
-	where o.feccar >=  str_to_date('2019-08-01', '%Y-%m-%d') 
-	and o.feccar &lt;= str_to_date('2019-08-31', '%Y-%m-%d') 
-	and o.idcliente = 1521
-	and a.idgasto IN (2,3)
+	where o.feccar >=  str_to_date('2019-10-01', '%Y-%m-%d') 
+	and o.feccar &lt;= str_to_date('2019-10-31', '%Y-%m-%d') 
+	and o.idcliente = 65
+	
+	and a.idgasto IN (2)
+	
 order by clave) as calculo
 
 group by calculo.clave
@@ -673,8 +799,63 @@ order by calculo.clave</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>320</xloc>
-      <yloc>304</yloc>
+      <xloc>352</xloc>
+      <yloc>224</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Calculos Otros Gastos</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>VOTS 4PL</connection>
+    <sql>select calculo.clave, 
+	sum(calculo.DetalleGastosxFacturaxOperacionxArticulo4pl_importe) as suma_articulo_gasto_local, 
+	sum(calculo.DetalleGastosxFacturaxOperacionxArticulo4pl_importe_dolares) as 'AddlLineDuty'
+from (select 
+concat(o.tripli, arti.artic, arti.id_artici) as clave,
+a.idfactura_gasto,a.idgasto,a.id_artici,
+ case when f.idmoneda='PES' THEN a.importe ELSE a.importe*o.tipcamofi end as DetalleGastosxFacturaxOperacionxArticulo4pl_importe,
+ case when f.idmoneda='DOL' then a.importe else a.importe/o.tipcamofi end as DetalleGastosxFacturaxOperacionxArticulo4pl_importe_dolares
+from 4pl_factura_gasto_articulo a
+inner join 4pl_factura_gasto g on g.id=a.idfactura_gasto
+inner join 4pl_factura f on f.id=g.idfactura
+inner join artici arti on arti.id_artici=a.id_artici
+inner join operai o on o.tripli=arti.tripli
+	where o.feccar >=  str_to_date('2019-10-01', '%Y-%m-%d') 
+	and o.feccar &lt;= str_to_date('2019-10-31', '%Y-%m-%d') 
+	and o.idcliente = 65
+	
+	and a.idgasto IN (	1 	# ingresos brutos
+						,3 	# tasa estaadistica
+						, 4, 5, 6, 56, 57, 58, 69, 14 # ganancias
+)
+order by clave) as calculo
+
+group by calculo.clave
+order by calculo.clave</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>583</xloc>
+      <yloc>253</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -690,8 +871,8 @@ order by calculo.clave</sql>
       <schema_name/>
     </partitioning>
     <join_type>INNER</join_type>
-    <step1>Sort rows</step1>
-    <step2>Sort rows 2</step2>
+    <step1>Order x Clave</step1>
+    <step2>Orden x Clave</step2>
     <keys_1>
       <key>clave</key>
     </keys_1>
@@ -706,8 +887,8 @@ order by calculo.clave</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>432</xloc>
-      <yloc>96</yloc>
+      <xloc>464</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -739,8 +920,41 @@ order by calculo.clave</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>576</xloc>
-      <yloc>96</yloc>
+      <xloc>480</xloc>
+      <yloc>144</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Merge Join 2 2</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <join_type>LEFT OUTER</join_type>
+    <step1>Merge Join 2</step1>
+    <step2>Calculos Otros Gastos</step2>
+    <keys_1>
+      <key>clave</key>
+    </keys_1>
+    <keys_2>
+      <key>clave</key>
+    </keys_2>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>624</xloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -792,6 +1006,11 @@ order by calculo.clave</sql>
       </field>
       <field>
         <name>Nombre del Agente de Aduana responsable por el reporte</name>
+        <type>String</type>
+        <format/>
+      </field>
+      <field>
+        <name>BrokerId</name>
         <type>String</type>
         <format/>
       </field>
@@ -881,7 +1100,7 @@ order by calculo.clave</sql>
         <format>0.00</format>
       </field>
       <field>
-        <name>Valor de impuesto pago para esta línea de partida arancelaria</name>
+        <name>Valor de impuesto pago para esta línea de partida arancelaria_1</name>
         <type>Number</type>
         <format>0.00</format>
       </field>
@@ -910,6 +1129,51 @@ order by calculo.clave</sql>
         <type>String</type>
         <format/>
       </field>
+      <field>
+        <name>CustomsOffice</name>
+        <type>String</type>
+        <format/>
+      </field>
+      <field>
+        <name>ProductDesc</name>
+        <type>String</type>
+        <format/>
+      </field>
+      <field>
+        <name>TxnQty</name>
+        <type>Number</type>
+        <format/>
+      </field>
+      <field>
+        <name>TxnQtyUOM</name>
+        <type>String</type>
+        <format/>
+      </field>
+      <field>
+        <name>UnitValue</name>
+        <type>Number</type>
+        <format/>
+      </field>
+      <field>
+        <name>LineDuty</name>
+        <type>Number</type>
+        <format/>
+      </field>
+      <field>
+        <name>AdValoremDutyRate</name>
+        <type>Number</type>
+        <format/>
+      </field>
+      <field>
+        <name>AddlLineDuty</name>
+        <type>Number</type>
+        <format/>
+      </field>
+      <field>
+        <name>AddlLineDutyUnit</name>
+        <type>Number</type>
+        <format/>
+      </field>
     </fields>
     <custom>
       <header_font_name>arial</header_font_name>
@@ -936,8 +1200,90 @@ order by calculo.clave</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>912</xloc>
-      <yloc>96</yloc>
+      <xloc>864</xloc>
+      <yloc>48</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Orden x Clave</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>clave</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>336</xloc>
+      <yloc>112</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Order x Clave</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>clave</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>336</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -953,10 +1299,11 @@ order by calculo.clave</sql>
       <schema_name/>
     </partitioning>
     <connection>VOTS 4PL</connection>
-    <sql>select distinct oi.tripli as tripli, 
+    <sql>select distinct oi.tripli as tripli, ai.artic, ai.id_artici,
 
-concat(oi.tripli, ai.artic,'') as clave
+concat(oi.tripli, ai.artic,ai.id_artici, '') as clave
 , 'RUGGERO VACCARI Y ASOC SA' as 'Nombre del Agente de Aduana responsable por el reporte'
+, concat(oa.cuit_despachante) as 'BrokerId'
 , 
 concat(cl.cliente) as 'Nombre del importador'
 , concat(cl.cuit) as 'Identificación del importador'
@@ -988,27 +1335,32 @@ concat(cl.cliente) as 'Nombre del importador'
 
 , concat(pais_origen.ISO3166code2char) as 'CountryOfOrigin'
 , concat(pais_proc.ISO3166code2char) as 'ExportCountry'
+, concat(ad.nombre) as 'CustomsOffice'
+
+
+
   from operai oi
   join operaiadd oa on oa.numop = oi.tripli
   join clientes cl on cl.idcliente = oi.idcliente
   join proveedor pr on pr.id = oa.id_proveedor
   join paises pais_proc on pais_proc.idpais = oi.proced
-  
+	join aduanas ad on ad.codadu = oi.codadu
+
   left join via on via.codvia = oi.codvia
-  join artici ai on ai.tripli = oi.tripli and ai.canti > 0
+  left join artici ai on ai.tripli = oi.tripli
 	left join paises pais_origen on pais_origen.idpais = ai.origen2
   left join monedas mo on mo.cdev = oi.codfob
  
 
 
-	where oi.feccar >=  str_to_date('2019-08-01', '%Y-%m-%d') 
-	and oi.feccar &lt;= str_to_date('2019-08-31', '%Y-%m-%d') 
-	and cl.idcliente = 1521
+	where oi.feccar >=  str_to_date('2019-10-01', '%Y-%m-%d') 
+	and oi.feccar &lt;= str_to_date('2019-10-31', '%Y-%m-%d') 
+	and cl.idcliente = 65
+	
+	
 
 
-
-
-order by ai.tripli, ai.artic
+order by clave
 
 
 /*	where oi.feccar >=  str_to_date(${fecha_desde}, '%Y-%m-%d') 
