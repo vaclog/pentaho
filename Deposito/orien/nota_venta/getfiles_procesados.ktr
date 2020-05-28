@@ -442,12 +442,17 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Get File Names</from>
-      <to>Filter rows</to>
+      <from>Calculator 2</from>
+      <to>Filter rows 2</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Filter rows</from>
+      <from>Get File Names</from>
+      <to>Calculator 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filter rows 2</from>
       <to>Copy rows to result</to>
       <enabled>Y</enabled>
     </hop>
@@ -471,51 +476,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>319</xloc>
-      <yloc>130</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Filter rows</name>
-    <type>FilterRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <send_true_to>Copy rows to result</send_true_to>
-    <send_false_to/>
-    <compare>
-      <condition>
-        <negated>N</negated>
-        <leftvalue>lastmodifiedtime</leftvalue>
-        <function>&gt;=</function>
-        <rightvalue/>
-        <value>
-          <name>constant</name>
-          <type>Date</type>
-          <text>2020/05/27 00:00:00.000</text>
-          <length>-1</length>
-          <precision>-1</precision>
-          <isnull>N</isnull>
-          <mask>yyyy/MM/dd HH:mm:ss</mask>
-        </value>
-      </condition>
-    </compare>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>160</xloc>
-      <yloc>128</yloc>
+      <xloc>400</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -651,8 +613,90 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>464</xloc>
-      <yloc>128</yloc>
+      <xloc>528</xloc>
+      <yloc>112</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Filter rows 2</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to>Copy rows to result</send_true_to>
+    <send_false_to/>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <leftvalue>date</leftvalue>
+        <function>&gt;=</function>
+        <rightvalue/>
+        <value>
+          <name>constant</name>
+          <type>Date</type>
+          <text>2020/05/27 00:00:00.000</text>
+          <length>-1</length>
+          <precision>-1</precision>
+          <isnull>N</isnull>
+          <mask>yyyyMMdd</mask>
+        </value>
+      </condition>
+    </compare>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>272</xloc>
+      <yloc>96</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Calculator 2</name>
+    <type>Calculator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <calculation>
+      <field_name>date</field_name>
+      <calc_type>COPY_FIELD</calc_type>
+      <field_a>lastmodifiedtime</field_a>
+      <field_b/>
+      <field_c/>
+      <value_type>Timestamp</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask>yyyyMMdd</conversion_mask>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>160</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
