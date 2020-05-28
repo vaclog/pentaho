@@ -460,7 +460,7 @@
     <hop>
       <from>Get rows from result</from>
       <to>Write to log</to>
-      <enabled>Y</enabled>
+      <enabled>N</enabled>
     </hop>
     <hop>
       <from>CSV file input</from>
@@ -503,19 +503,9 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Write to log 3</from>
-      <to>Copy rows to result</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Copy rows to result</from>
-      <to>Set Variables</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Get Variables</from>
       <to>Get rows from result</to>
-      <enabled>Y</enabled>
+      <enabled>N</enabled>
     </hop>
   </order>
   <step>
@@ -537,7 +527,7 @@
         <currency/>
         <decimal/>
         <group/>
-        <nullif>C:\Users\ValkUser\Documents\GitHub\pentaho\Deposito\orien\nota_venta\out</nullif>
+        <nullif>C:\Users\ValkUser\OneDrive - VACLOG\Orien\VALKIMIA\NOTA_DE_VENTA</nullif>
         <length>-1</length>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
@@ -706,7 +696,7 @@
       </field>
       <field>
         <name>item</name>
-        <type>Number</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
@@ -728,7 +718,7 @@
       </field>
       <field>
         <name>cantidad</name>
-        <type>Number</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
@@ -752,30 +742,6 @@
     </GUI>
   </step>
   <step>
-    <name>Copy rows to result</name>
-    <type>RowsToResult</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>960</xloc>
-      <yloc>240</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>Copy rows to result 2</name>
     <type>RowsToResult</type>
     <description/>
@@ -794,8 +760,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>758</xloc>
-      <yloc>336</yloc>
+      <xloc>752</xloc>
+      <yloc>320</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -864,8 +830,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>48</xloc>
-      <yloc>48</yloc>
+      <xloc>32</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1015,8 +981,8 @@ var pedido_nuevo = tipo_pedido[1] + numero_pedido;</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>672</xloc>
-      <yloc>48</yloc>
+      <xloc>496</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1057,53 +1023,8 @@ var pedido_nuevo = tipo_pedido[1] + numero_pedido;</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>502</xloc>
-      <yloc>336</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Set Variables</name>
-    <type>SetVariable</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <field_name>filename</field_name>
-        <variable_name>filename</variable_name>
-        <variable_type>JVM</variable_type>
-        <default_value/>
-      </field>
-      <field>
-        <field_name>nuevo_archivo</field_name>
-        <variable_name>nuevo_archivo</variable_name>
-        <variable_type>JVM</variable_type>
-        <default_value/>
-      </field>
-      <field>
-        <field_name>shortname</field_name>
-        <variable_name>shortname</variable_name>
-        <variable_type>JVM</variable_type>
-        <default_value/>
-      </field>
-    </fields>
-    <use_formatting>Y</use_formatting>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>944</xloc>
-      <yloc>112</yloc>
+      <xloc>496</xloc>
+      <yloc>320</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1260,7 +1181,7 @@ var pedido_nuevo = tipo_pedido[1] + numero_pedido;</jsScript_script>
       </field>
       <field>
         <name>item</name>
-        <type>Number</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1284,7 +1205,7 @@ var pedido_nuevo = tipo_pedido[1] + numero_pedido;</jsScript_script>
       </field>
       <field>
         <name>cantidad</name>
-        <type>Number</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1303,7 +1224,7 @@ var pedido_nuevo = tipo_pedido[1] + numero_pedido;</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>672</xloc>
+      <xloc>496</xloc>
       <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1353,8 +1274,8 @@ var pedido_nuevo = tipo_pedido[1] + numero_pedido;</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>630</xloc>
-      <yloc>336</yloc>
+      <xloc>624</xloc>
+      <yloc>320</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1387,8 +1308,8 @@ var pedido_nuevo = tipo_pedido[1] + numero_pedido;</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>144</xloc>
-      <yloc>224</yloc>
+      <xloc>192</xloc>
+      <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1433,8 +1354,8 @@ var pedido_nuevo = tipo_pedido[1] + numero_pedido;</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>870</xloc>
-      <yloc>336</yloc>
+      <xloc>864</xloc>
+      <yloc>304</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

@@ -375,7 +375,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>448</xloc>
+      <xloc>416</xloc>
       <yloc>160</yloc>
     </entry>
     <entry>
@@ -409,7 +409,7 @@
       <fields>
         <field>
           <source_filefolder>${filename}</source_filefolder>
-          <destination_filefolder>${OLDPATH}</destination_filefolder>
+          <destination_filefolder>C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\archivo_procesados</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -418,6 +418,70 @@
       <nr>0</nr>
       <xloc>720</xloc>
       <yloc>160</yloc>
+    </entry>
+    <entry>
+      <name>Copy Files</name>
+      <description/>
+      <type>COPY_FILES</type>
+      <copy_empty_folders>N</copy_empty_folders>
+      <arg_from_previous>Y</arg_from_previous>
+      <overwrite_files>N</overwrite_files>
+      <include_subfolders>N</include_subfolders>
+      <remove_source_files>N</remove_source_files>
+      <add_result_filesname>N</add_result_filesname>
+      <destination_is_a_file>N</destination_is_a_file>
+      <create_destination_folder>N</create_destination_folder>
+      <fields>
+        <field>
+          <source_filefolder>EMPTY_SOURCE_URL-0-${filename}</source_filefolder>
+          <source_configuration_name>LOCAL-SOURCE-FILE-0</source_configuration_name>
+          <destination_filefolder>EMPTY_DEST_URL-0-C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\archivo_procesados</destination_filefolder>
+          <destination_configuration_name/>
+          <wildcard/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>672</xloc>
+      <yloc>240</yloc>
+    </entry>
+    <entry>
+      <name>Success</name>
+      <description/>
+      <type>SUCCESS</type>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>736</xloc>
+      <yloc>336</yloc>
+    </entry>
+    <entry>
+      <name>Process result filenames</name>
+      <description/>
+      <type>COPY_MOVE_RESULT_FILENAMES</type>
+      <foldername/>
+      <specify_wildcard>N</specify_wildcard>
+      <wildcard/>
+      <wildcardexclude/>
+      <destination_folder>C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\archivo_procesados</destination_folder>
+      <nr_errors_less_than>10</nr_errors_less_than>
+      <success_condition>success_if_no_errors</success_condition>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <action>copy</action>
+      <AddDateBeforeExtension>N</AddDateBeforeExtension>
+      <OverwriteFile>N</OverwriteFile>
+      <CreateDestinationFolder>N</CreateDestinationFolder>
+      <RemovedSourceFilename>N</RemovedSourceFilename>
+      <AddDestinationFilename>Y</AddDestinationFilename>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>544</xloc>
+      <yloc>256</yloc>
     </entry>
   </entries>
   <hops>
@@ -444,9 +508,36 @@
       <to>Move Files</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
+      <enabled>N</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>Y</unconditional>
+    </hop>
+    <hop>
+      <from>Transformation</from>
+      <to>Copy Files</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>N</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Transformation</from>
+      <to>Process result filenames</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Process result filenames</from>
+      <to>Success</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>Y</unconditional>
     </hop>
   </hops>
   <notepads>
