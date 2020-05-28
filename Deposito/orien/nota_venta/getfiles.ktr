@@ -448,13 +448,28 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Get File Names</from>
-      <to>Filter rows</to>
+      <from>Filter rows</from>
+      <to>Copy rows to result</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Filter rows</from>
-      <to>Copy rows to result</to>
+      <from>Get File Names</from>
+      <to>Calculator</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Calculator</from>
+      <to>Write to log</to>
+      <enabled>N</enabled>
+    </hop>
+    <hop>
+      <from>Write to log</from>
+      <to>Filter rows</to>
+      <enabled>N</enabled>
+    </hop>
+    <hop>
+      <from>Calculator</from>
+      <to>Filter rows</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -477,7 +492,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>288</xloc>
+      <xloc>432</xloc>
       <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
@@ -498,7 +513,7 @@
     <compare>
       <condition>
         <negated>N</negated>
-        <leftvalue>lastmodifiedtime</leftvalue>
+        <leftvalue>date</leftvalue>
         <function>&gt;=</function>
         <rightvalue/>
         <value>
@@ -508,7 +523,7 @@
           <length>-1</length>
           <precision>-1</precision>
           <isnull>N</isnull>
-          <mask>yyyy/MM/dd HH:mm:ss</mask>
+          <mask>yyyyMMdd</mask>
         </value>
       </condition>
     </compare>
@@ -520,7 +535,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>192</xloc>
+      <xloc>320</xloc>
       <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
@@ -657,7 +672,86 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>384</xloc>
+      <xloc>544</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Write to log</name>
+    <type>WriteToLog</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <loglevel>log_level_basic</loglevel>
+    <displayHeader>Y</displayHeader>
+    <limitRows>N</limitRows>
+    <limitRowsNumber>0</limitRowsNumber>
+    <logmessage/>
+    <fields>
+      <field>
+        <name>date</name>
+      </field>
+      <field>
+        <name>short_filename</name>
+      </field>
+      <field>
+        <name>lastmodifiedtime</name>
+      </field>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>240</xloc>
+      <yloc>160</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Calculator</name>
+    <type>Calculator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <calculation>
+      <field_name>date</field_name>
+      <calc_type>COPY_FIELD</calc_type>
+      <field_a>lastmodifiedtime</field_a>
+      <field_b/>
+      <field_c/>
+      <value_type>Timestamp</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask>yyyyMMdd</conversion_mask>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>208</xloc>
       <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
