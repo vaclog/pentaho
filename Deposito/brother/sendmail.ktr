@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>getfiles</name>
+    <name>sendmail</name>
     <description/>
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
-    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
-      <parameter>
-        <name>READPATH</name>
-        <default_value/>
-        <description/>
-      </parameter>
     </parameters>
     <log>
       <trans-log-table>
@@ -433,9 +427,9 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2020/05/18 15:40:51.546</created_date>
+    <created_date>2020/06/19 16:42:24.261</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2020/05/18 15:40:51.546</modified_date>
+    <modified_date>2020/06/19 16:42:24.261</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -443,39 +437,14 @@
   </notepads>
   <order>
     <hop>
-      <from>Copy rows to result</from>
-      <to>Text file output</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Filter rows</from>
-      <to>Copy rows to result</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Get File Names</from>
-      <to>Calculator</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Calculator</from>
-      <to>Write to log</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Write to log</from>
-      <to>Filter rows</to>
-      <enabled>N</enabled>
-    </hop>
-    <hop>
-      <from>Calculator</from>
-      <to>Filter rows</to>
+      <from>Get files from result</from>
+      <to>Mail</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Calculator</name>
-    <type>Calculator</type>
+    <name>Mail</name>
+    <type>Mail</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -484,21 +453,72 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <calculation>
-      <field_name>date</field_name>
-      <calc_type>COPY_FIELD</calc_type>
-      <field_a>lastmodifiedtime</field_a>
-      <field_b/>
-      <field_c/>
-      <value_type>Timestamp</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>N</remove>
-      <conversion_mask>yyyyMMdd</conversion_mask>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
+    <server/>
+    <port/>
+    <destination/>
+    <destinationCc/>
+    <destinationBCc/>
+    <replyToAddresses/>
+    <replyto/>
+    <replytoname/>
+    <subject/>
+    <include_date>N</include_date>
+    <include_subfolders>N</include_subfolders>
+    <zipFilenameDynamic>N</zipFilenameDynamic>
+    <isFilenameDynamic>N</isFilenameDynamic>
+    <attachContentFromField>N</attachContentFromField>
+    <attachContentField/>
+    <attachContentFileNameField/>
+    <dynamicFieldname/>
+    <dynamicWildcard/>
+    <dynamicZipFilename/>
+    <sourcefilefoldername/>
+    <sourcewildcard/>
+    <contact_person/>
+    <contact_phone/>
+    <comment/>
+    <include_files>N</include_files>
+    <zip_files>N</zip_files>
+    <zip_name/>
+    <zip_limit_size/>
+    <use_auth>N</use_auth>
+    <use_secure_auth>N</use_secure_auth>
+    <auth_user/>
+    <auth_password>Encrypted </auth_password>
+    <only_comment>N</only_comment>
+    <use_HTML>N</use_HTML>
+    <use_Priority>N</use_Priority>
+    <encoding/>
+    <priority/>
+    <importance/>
+    <sensitivity/>
+    <secureconnectiontype/>
+    <embeddedimages>
+      </embeddedimages>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>368</xloc>
+      <yloc>112</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Get files from result</name>
+    <type>FilesFromResult</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -508,251 +528,7 @@
     </remotesteps>
     <GUI>
       <xloc>208</xloc>
-      <yloc>64</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Copy rows to result</name>
-    <type>RowsToResult</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>432</xloc>
-      <yloc>48</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Filter rows</name>
-    <type>FilterRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <send_true_to>Copy rows to result</send_true_to>
-    <send_false_to/>
-    <compare>
-      <condition>
-        <negated>N</negated>
-        <leftvalue>date</leftvalue>
-        <function>&gt;=</function>
-        <rightvalue/>
-        <value>
-          <name>constant</name>
-          <type>Date</type>
-          <text>2020/05/27 00:00:00.000</text>
-          <length>-1</length>
-          <precision>-1</precision>
-          <isnull>N</isnull>
-          <mask>yyyyMMdd</mask>
-        </value>
-      </condition>
-    </compare>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>320</xloc>
-      <yloc>48</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Get File Names</name>
-    <type>GetFileNames</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <filter>
-      <filterfiletype>all_files</filterfiletype>
-    </filter>
-    <doNotFailIfNoFile>N</doNotFailIfNoFile>
-    <rownum>N</rownum>
-    <isaddresult>Y</isaddresult>
-    <filefield>N</filefield>
-    <rownum_field/>
-    <filename_Field/>
-    <wildcard_Field/>
-    <exclude_wildcard_Field/>
-    <dynamic_include_subfolders>N</dynamic_include_subfolders>
-    <limit>0</limit>
-    <file>
-      <name>C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta</name>
-      <filemask>.*CSV</filemask>
-      <exclude_filemask/>
-      <file_required>N</file_required>
-      <include_subfolders>N</include_subfolders>
-    </file>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>96</xloc>
-      <yloc>48</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Text file output</name>
-    <type>TextFileOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <separator>;</separator>
-    <enclosure>"</enclosure>
-    <enclosure_forced>N</enclosure_forced>
-    <enclosure_fix_disabled>N</enclosure_fix_disabled>
-    <header>Y</header>
-    <footer>N</footer>
-    <format>DOS</format>
-    <compression>None</compression>
-    <encoding/>
-    <endedLine/>
-    <fileNameInField>N</fileNameInField>
-    <fileNameField/>
-    <create_parent_folder>Y</create_parent_folder>
-    <file>
-      <name>C:\Users\ValkUser\Documents\GitHub\pentaho\Deposito\orien\nota_venta\ParaProcesar</name>
-      <is_command>N</is_command>
-      <servlet_output>N</servlet_output>
-      <do_not_open_new_file_init>N</do_not_open_new_file_init>
-      <extention>txt</extention>
-      <append>N</append>
-      <split>N</split>
-      <haspartno>N</haspartno>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <SpecifyFormat>N</SpecifyFormat>
-      <date_time_format/>
-      <add_to_result_filenames>Y</add_to_result_filenames>
-      <pad>N</pad>
-      <fast_dump>N</fast_dump>
-      <splitevery>0</splitevery>
-    </file>
-    <fields>
-      <field>
-        <name>short_filename</name>
-        <type>None</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>filename</name>
-        <type>None</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>path</name>
-        <type>None</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>544</xloc>
-      <yloc>64</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Write to log</name>
-    <type>WriteToLog</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <loglevel>log_level_basic</loglevel>
-    <displayHeader>Y</displayHeader>
-    <limitRows>N</limitRows>
-    <limitRowsNumber>0</limitRowsNumber>
-    <logmessage/>
-    <fields>
-      <field>
-        <name>date</name>
-      </field>
-      <field>
-        <name>short_filename</name>
-      </field>
-      <field>
-        <name>lastmodifiedtime</name>
-      </field>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>240</xloc>
-      <yloc>160</yloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
