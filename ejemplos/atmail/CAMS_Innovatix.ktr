@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformation>
+  <info>
+    <name>CAMS_Innovatix</name>
+    <description/>
+    <extended_description/>
+    <trans_version/>
+    <directory>&#47;</directory>
+    <log>
+      <read/>
+      <write/>
+      <input/>
+      <output/>
+      <update/>
+      <rejected/>
+      <connection/>
+      <table/>
+      <use_batchid>Y</use_batchid>
+      <use_logfield>N</use_logfield>
+    </log>
+    <maxdate>
+      <connection/>
+      <table/>
+      <field/>
+      <offset>0.0</offset>
+      <maxdiff>0.0</maxdiff>
+    </maxdate>
+    <size_rowset>10000</size_rowset>
+    <sleep_time_empty>50</sleep_time_empty>
+    <sleep_time_full>50</sleep_time_full>
+    <unique_connections>N</unique_connections>
+    <feedback_shown>Y</feedback_shown>
+    <feedback_size>50000</feedback_size>
+    <using_thread_priorities>Y</using_thread_priorities>
+    <shared_objects_file/>
+    <dependencies>
+    </dependencies>
+    <partitionschemas>
+    </partitionschemas>
+    <slaveservers>
+    </slaveservers>
+    <clusterschemas>
+    </clusterschemas>
+  <modified_user>admin</modified_user>
+  <modified_date>2008&#47;09&#47;30 14:46:31.000</modified_date>
+  </info>
+  <notepads>
+  </notepads>
+  <connection>
+    <name>emsq1</name>
+    <server>c3quoraint1</server>
+    <type>ORACLE</type>
+    <access>Native</access>
+    <database>emsq1</database>
+    <port>1521</port>
+    <username>siebel_ems</username>
+    <password>Encrypted 2be98afc86ad48696aa0ea371d0c0fb8d</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>EXTRA_OPTION_MYSQL.defaultFetchSize</code><attribute>500</attribute></attribute>
+      <attribute><code>EXTRA_OPTION_MYSQL.useCursorFetch</code><attribute>true</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>INITIAL_POOL_SIZE</code><attribute>5</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MAXIMUM_POOL_SIZE</code><attribute>10</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1521</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>STREAM_RESULTS</code><attribute>Y</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <connection>
+    <name>emsconv</name>
+    <server>c3suoraint1</server>
+    <type>ORACLE</type>
+    <access>Native</access>
+    <database>emsconv</database>
+    <port>1521</port>
+    <username>siebel_ems</username>
+    <password>Encrypted 2be98afc86aa7818dae1bab7ce197a2c9</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>EXTRA_OPTION_MYSQL.defaultFetchSize</code><attribute>500</attribute></attribute>
+      <attribute><code>EXTRA_OPTION_MYSQL.useCursorFetch</code><attribute>true</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>INITIAL_POOL_SIZE</code><attribute>5</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MAXIMUM_POOL_SIZE</code><attribute>10</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1521</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>STREAM_RESULTS</code><attribute>Y</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <connection>
+    <name>emsprod</name>
+    <server>c3puoraext</server>
+    <type>ORACLE</type>
+    <access>Native</access>
+    <database>emsprod</database>
+    <port>1521</port>
+    <username>siebel_ems</username>
+    <password>Encrypted 2be98afc86ad48696aa0ea371d0c0fb8d</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>EXTRA_OPTION_MYSQL.defaultFetchSize</code><attribute>500</attribute></attribute>
+      <attribute><code>EXTRA_OPTION_MYSQL.useCursorFetch</code><attribute>true</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>INITIAL_POOL_SIZE</code><attribute>5</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MAXIMUM_POOL_SIZE</code><attribute>10</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1521</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>STREAM_RESULTS</code><attribute>Y</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <connection>
+    <name>camsp</name>
+    <server>c3puoraint1</server>
+    <type>ORACLE</type>
+    <access>Native</access>
+    <database>camsp</database>
+    <port>1521</port>
+    <username>sqlrptcams</username>
+    <password>Encrypted 2be98afc86aa7f296ae09fe62ca9ba1dd</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>EXTRA_OPTION_MYSQL.defaultFetchSize</code><attribute>500</attribute></attribute>
+      <attribute><code>EXTRA_OPTION_MYSQL.useCursorFetch</code><attribute>true</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>INITIAL_POOL_SIZE</code><attribute>5</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MAXIMUM_POOL_SIZE</code><attribute>10</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1521</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>STREAM_RESULTS</code><attribute>Y</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <connection>
+    <name>emsq2</name>
+    <server>c3quoraint1</server>
+    <type>ORACLE</type>
+    <access>Native</access>
+    <database>emsq2</database>
+    <port>1522</port>
+    <username>siebel_ems</username>
+    <password>Encrypted 2be98afc86aa7818dae1bab7ce197a2c9</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>EXTRA_OPTION_MYSQL.defaultFetchSize</code><attribute>500</attribute></attribute>
+      <attribute><code>EXTRA_OPTION_MYSQL.useCursorFetch</code><attribute>true</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>INITIAL_POOL_SIZE</code><attribute>5</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MAXIMUM_POOL_SIZE</code><attribute>10</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1522</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>STREAM_RESULTS</code><attribute>Y</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <order>
+  <hop> <from>Input</from><to>Excel Output</to><enabled>Y</enabled> </hop>  </order>
+  <step>
+    <name>Excel Output</name>
+    <type>ExcelOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <header>N</header>
+    <footer>N</footer>
+    <encoding/>
+    <file>
+      <name>C:\PDI_CAMS\DATA\OUTPUT\Innovatix</name>
+      <extention>xls</extention>
+      <split>N</split>
+      <add_date>Y</add_date>
+      <add_time>N</add_time>
+      <sheetname>Sheet1</sheetname>
+      <protect_sheet>N</protect_sheet>
+      <password>Encrypted </password>
+      <splitevery>0</splitevery>
+      </file>
+    <template>
+      <enabled>Y</enabled>
+      <append>Y</append>
+      <filename>C:\PDI_CAMS\DATA\INPUT\Template_Innovatix.xls</filename>
+      </template>
+    <fields>
+      <field>
+        <name>CONT_NUM</name>
+        <type>String</type>
+        <format/>
+        </field>
+      <field>
+        <name>CONT_INTERNAL_ID</name>
+        <type>String</type>
+        <format/>
+        </field>
+      <field>
+        <name>CONT_TITLE</name>
+        <type>String</type>
+        <format/>
+        </field>
+      <field>
+        <name>BUNIT_NAME</name>
+        <type>String</type>
+        <format/>
+        </field>
+      <field>
+        <name>BUNIT_ID_PRI</name>
+        <type>String</type>
+        <format/>
+        </field>
+      <field>
+        <name>CONT_DT_START</name>
+        <type>String</type>
+        <format/>
+        </field>
+      <field>
+        <name>CONT_DT_END</name>
+        <type>String</type>
+        <format/>
+        </field>
+      <field>
+        <name>LOB</name>
+        <type>String</type>
+        <format/>
+        </field>
+      <field>
+        <name>TXT_TBC_VAL</name>
+        <type>String</type>
+        <format/>
+        </field>
+      <field>
+        <name>CONTGRP_DESC</name>
+        <type>String</type>
+        <format/>
+        </field>
+      <field>
+        <name>TXT_TBC_VAL_1</name>
+        <type>String</type>
+        <format/>
+        </field>
+      <field>
+        <name>CHARITM_DESC</name>
+        <type>String</type>
+        <format/>
+        </field>
+      <field>
+        <name>CPPT_PERCENT</name>
+        <type>String</type>
+        <format/>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>300</xloc>
+      <yloc>140</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Input</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>camsp</connection>
+    <sql>SELECT to_char(cont.cont_num) cont_num,
+       cont_internal_id, decode (note_txt, NULL, cont_title, &apos; &apos;, cont_title, note_txt) cont_title,
+       whome.bunit_name, whome.BUNIT_ID_PRI,
+       to_char(cont_dt_start, &apos;mm&#47;dd&#47;yyyy&apos;) cont_dt_start,
+       to_char(cont_dt_end, &apos;mm&#47;dd&#47;yyyy&apos;) cont_dt_end,
+       SUBSTR(lob.bunit_name,9) LOB, A.txt_tbc_val, contgrp_desc, ttbc.TXT_TBC_VAL, CHARITM_DESC,
+       DECODE( MIN(cppt_percent), MAX(cppt_percent), MAX(cppt_percent)*100||&apos;%&apos;,
+         MIN(cppt_percent)*100 || &apos;% - &apos; ||MAX(cppt_percent)*100 ||&apos;%&apos;) cppt_percent
+  FROM cont, cpgrp, cppt, bunit whome, ttbc, ttbc a, status, contstat, bunit lob, note, charitm, contchar, whoami,
+       contgrp, contgrpcont
+ WHERE cpgrp.PGRPTYP_CD = &apos;PFD&apos; and ttbc.num_tbh_id = 501 and contstat.status_num in (6,36) and cppt.status_num in (60,61)
+   and cppt_percent IS NOT NULL and ttbc.txt_tbc_cde = cont.CTAWDTYP_CD and cont.whoami_num = whoami.whoami_num
+   and lob.bunit_num = whoami.bunit_num and cont.contstat_num = contstat.contstat_num
+   and contstat.status_num = status.status_num and cpgrp.cont_num = cont.cont_num
+   and cppt.cpgrp_num = cpgrp.cpgrp_num and contchar.cont_num(+) = cont.cont_num
+   and contchar.charitm_num = charitm.charitm_num
+   and whome.bunit_num = cont.ctorg_bunit_num and note_rownum(+) = cont.cont_num and notetyp_id(+) = &apos;CONTTITLE&apos;
+   and cont.cont_dt_end &gt;= sysdate and cont.cont_num = contgrpcont.cont_num(+)
+   and contgrpcont.contgrp_num  = contgrp.contgrp_num(+)
+   and charset_id = &apos;COMMITMENT&apos; AND a.num_tbh_id = 517 AND a.txt_tbc_cde = cont.mkttyp_id
+ Group by cont.cont_num, cont_internal_id, note_txt, cont_title, whome.bunit_name, whome.BUNIT_ID_PRI, cont_dt_start,
+       cont_dt_end, SUBSTR(lob.bunit_name,9), a.txt_tbc_val, CONTgrp_DESC, ttbc.TXT_TBC_VAL, CHARITM_DESC            
+ ORDER BY cont_internal_id</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>140</xloc>
+      <yloc>140</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step_error_handling>
+  </step_error_handling>
+   <slave-step-copy-partition-distribution>
+</slave-step-copy-partition-distribution>
+   <slave_transformation>N</slave_transformation>
+</transformation>
