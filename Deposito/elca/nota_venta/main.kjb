@@ -4,13 +4,29 @@
   <description/>
   <extended_description/>
   <job_version/>
+  <job_status>0</job_status>
   <directory>/</directory>
   <created_user>-</created_user>
-  <created_date>2020/06/19 16:13:16.238</created_date>
+  <created_date>2020/05/18 15:50:06.431</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2020/06/19 16:13:16.238</modified_date>
+  <modified_date>2020/05/18 15:50:06.431</modified_date>
   <parameters>
-    </parameters>
+    <parameter>
+      <name>OLDPATH</name>
+      <default_value>C:\Users\ValkUser\Documents\GitHub\pentaho\Deposito\orien\nota_venta\old</default_value>
+      <description/>
+    </parameter>
+    <parameter>
+      <name>READPATH</name>
+      <default_value>C:\Users\ValkUser\Documents\GitHub\pentaho\Deposito\orien\nota_venta\</default_value>
+      <description/>
+    </parameter>
+    <parameter>
+      <name>SALIDAPATH</name>
+      <default_value>c:\</default_value>
+      <description/>
+    </parameter>
+  </parameters>
   <slaveservers>
     </slaveservers>
   <job-log-table>
@@ -303,26 +319,101 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>96</xloc>
-      <yloc>112</yloc>
+      <xloc>64</xloc>
+      <yloc>80</yloc>
     </entry>
     <entry>
-      <name>Success</name>
+      <name>Buscar Archivos</name>
       <description/>
-      <type>SUCCESS</type>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Entry.Current.Directory}/getfiles.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <run_configuration>Pentaho local</run_configuration>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+        <parameter>
+          <name>READPATH</name>
+          <stream_name>${READPATH}</stream_name>
+          <value/>
+        </parameter>
+      </parameters>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>704</xloc>
+      <xloc>160</xloc>
+      <yloc>32</yloc>
+    </entry>
+    <entry>
+      <name>Procesar Archivo individual</name>
+      <description/>
+      <type>JOB</type>
+      <specification_method>filename</specification_method>
+      <job_object_id/>
+      <filename>${Internal.Entry.Current.Directory}/processfile.kjb</filename>
+      <jobname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Nothing</loglevel>
+      <slave_server_name/>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
+      <create_parent_folder>N</create_parent_folder>
+      <pass_export>N</pass_export>
+      <run_configuration>Pentaho local</run_configuration>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+        <parameter>
+          <name>SALIDAPATH</name>
+          <stream_name/>
+          <value>${SALIDAPATH}</value>
+        </parameter>
+        <parameter>
+          <name>OLDPATH</name>
+          <stream_name/>
+          <value>${OLDPATH}</value>
+        </parameter>
+      </parameters>
+      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>560</xloc>
       <yloc>64</yloc>
     </entry>
     <entry>
-      <name>ArmoExcel</name>
+      <name>Buscar Archivos Procesados</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/salidas.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/getfiles_procesados.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -345,26 +436,31 @@
       <run_configuration>Pentaho local</run_configuration>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
+        <parameter>
+          <name>READPATH</name>
+          <stream_name>${READPATH}</stream_name>
+          <value/>
+        </parameter>
       </parameters>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>224</xloc>
-      <yloc>112</yloc>
+      <xloc>272</xloc>
+      <yloc>64</yloc>
     </entry>
     <entry>
-      <name>LeoNombredeArchivo</name>
+      <name>BuscarAProcesar</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/getfile.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/look.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
       <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
+      <clear_rows>Y</clear_rows>
+      <clear_files>Y</clear_files>
       <set_logfile>N</set_logfile>
       <logfile/>
       <logext/>
@@ -385,81 +481,14 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>352</xloc>
-      <yloc>32</yloc>
-    </entry>
-    <entry>
-      <name>Mail 2</name>
-      <description/>
-      <type>MAIL</type>
-      <server>smtp.office365.com</server>
-      <port>587</port>
-      <destination>loginbound@brother.com.ar aamaya@brother.com.ar cobranzas@brother.com.ar nferrari@brother.com.ar</destination>
-      <destinationCc>ostuhldreher@vaclog.com lgutierrez@vaclog.com ggomez@vaclog.com</destinationCc>
-      <destinationBCc/>
-      <replyto>VOTSInformes@vaclog.com</replyto>
-      <replytoname>VACLOG WD - Reportes</replytoname>
-      <subject>Reporte Diario de Estados de Pedidos</subject>
-      <include_date>Y</include_date>
-      <contact_person>ostuhldreher@vaclog.com</contact_person>
-      <contact_phone/>
-      <comment>Buenas Tardes,
-
-Adjuntamos el informe diario de Estado de Pedidos.
-
-Por cualquier consulta por favor contactarse con Osvaldo Stuhldreher, ostuhldreher@vaclog.com.
-
-Muchas gracias
-
-Saludos
-</comment>
-      <include_files>Y</include_files>
-      <zip_files>N</zip_files>
-      <zip_name/>
-      <use_auth>Y</use_auth>
-      <use_secure_auth>Y</use_secure_auth>
-      <auth_user>VOTSInformes@vaclog.onmicrosoft.com</auth_user>
-      <auth_password>Encrypted 2be98afc86aa7b18b8816f622f29d8cd5</auth_password>
-      <only_comment>Y</only_comment>
-      <use_HTML>N</use_HTML>
-      <use_Priority>N</use_Priority>
-      <encoding>UTF-8</encoding>
-      <priority>normal</priority>
-      <importance>normal</importance>
-      <sensitivity>normal</sensitivity>
-      <secureconnectiontype>TLS</secureconnectiontype>
-      <replyToAddresses/>
-      <filetypes>
-        <filetype>GENERAL</filetype>
-      </filetypes>
-      <embeddedimages>
-      </embeddedimages>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>512</xloc>
-      <yloc>32</yloc>
-    </entry>
-    <entry>
-      <name>Set variables</name>
-      <description/>
-      <type>SET_VARIABLES</type>
-      <replacevars>Y</replacevars>
-      <filename/>
-      <file_variable_type>JVM</file_variable_type>
-      <fields>
-      </fields>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>128</xloc>
-      <yloc>224</yloc>
+      <xloc>416</xloc>
+      <yloc>64</yloc>
     </entry>
   </entries>
   <hops>
     <hop>
       <from>START</from>
-      <to>ArmoExcel</to>
+      <to>Buscar Archivos</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -467,8 +496,8 @@ Saludos
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>ArmoExcel</from>
-      <to>LeoNombredeArchivo</to>
+      <from>Buscar Archivos</from>
+      <to>Buscar Archivos Procesados</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -476,8 +505,8 @@ Saludos
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>LeoNombredeArchivo</from>
-      <to>Mail 2</to>
+      <from>Buscar Archivos Procesados</from>
+      <to>BuscarAProcesar</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -485,17 +514,8 @@ Saludos
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Mail 2</from>
-      <to>Success</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>Set variables</from>
-      <to>ArmoExcel</to>
+      <from>BuscarAProcesar</from>
+      <to>Procesar Archivo individual</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -504,6 +524,27 @@ Saludos
     </hop>
   </hops>
   <notepads>
+    <notepad>
+      <note>Cambiar variables de proceso</note>
+      <xloc>336</xloc>
+      <yloc>256</yloc>
+      <width>151</width>
+      <heigth>24</heigth>
+      <fontname>Tahoma</fontname>
+      <fontsize>8</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
   </notepads>
   <attributes>
     <group>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>salidas</name>
+    <name>resumen_brother</name>
     <description/>
-    <extended_description/>
+    <extended_description>Se cuenta cuantas posiciones por dia ocupa brother y lo almacena en la base de datos.</extended_description>
     <trans_version/>
     <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
     </parameters>
@@ -486,69 +487,37 @@
       </attribute>
     </attributes>
   </connection>
-  <connection>
-    <name>VKM Prod</name>
-    <server>SRV-DB</server>
-    <type>MSSQL</type>
-    <access>Native</access>
-    <database>VKM_Prod</database>
-    <port>1433</port>
-    <username>vaclog</username>
-    <password>Encrypted 2be98afc86aa7f28ca415af349ac3fd89</password>
-    <servername/>
-    <data_tablespace/>
-    <index_tablespace/>
-    <attributes>
-      <attribute>
-        <code>PORT_NUMBER</code>
-        <attribute>1433</attribute>
-      </attribute>
-    </attributes>
-  </connection>
   <order>
     <hop>
-      <from>SALIDAS</from>
-      <to>SALIDAS NUBE</to>
+      <from>Table input</from>
+      <to>Text file output</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>SALIDAS</name>
+    <name>Table input</name>
     <type>TableInput</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>VKM Prod</connection>
-    <sql>
-select 
-S1.SEntDocNro as 'Armado', 
-EntID as 'Entidad', 
-EntEntIdC as 'Cliente.Destino', 
-EntNombre as 'Nombre',
-SEntFecAlt as 'FechaAlta', 
-S.SentFecFin as 'FechaFin', 
-S.SentPCCId as 'PCC', 
-PCCFec as 'FechaPCC',
-S.SentNroDsp as 'Delivery', 
-S.LogEntId as 'cliente_id', 
-S.SEntEstEnt as 'Estado', 
-S.SentObs as 'Observación',
-SUM(SEntIteCnt) as 'Ud.Pedidas', 
-SUM(SEntIteCon) as 'Ud.Preparadas'
-from SENT1 (nolock) S1
-inner join SENT S (nolock) on S1.SEntDocNro = S.SEntDocNro
-left join ENT (nolock) on SEntEntId = EntID
-left join LOPCC on SentPCCId = PCCId
-where SentTVar = 'S' 
-and SentTipUso = 'S' 
-and  SEntEstEnt &lt;&gt; 'ANU' 
-and SEntEstEnt = 'CAR'
-group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentFecFin, S.SentPCCId, PCCFec, S.SentNroDsp, S.LogEntId, S.SEntEstEnt, S.SentObs</sql>
+    <connection>Remito Nube</connection>
+    <sql>SELECT
+  cliente_id
+, concat(fecha_proceso, '')  as 'Fecha'
+, muelle_entrada * 1 as 'Playon Ingreso'
+, en_posicion  * 1 as 'Pocisiones de Almacenaje'
+, muelle_salida * 1 as 'Playon Egreso'
+, 270 as 'Repuestos'
+, muelle_entrada + en_posicion + muelle_salida + 270 as 'Total'
+FROM vkm_posiciones_pivot
+where month(fecha_proceso) = month(curdate())
+and cliente_id = 1032
+</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -562,14 +531,14 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentFecFin, S
       </output>
     </remotesteps>
     <GUI>
-      <xloc>272</xloc>
-      <yloc>128</yloc>
+      <xloc>240</xloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>SALIDAS NUBE</name>
-    <type>TableOutput</type>
+    <name>Text file output</name>
+    <type>TextFileOutput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -578,79 +547,109 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentFecFin, S
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>Remito Nube</connection>
-    <schema/>
-    <table>vkm_salidas</table>
-    <commit>500</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
+    <separator>;</separator>
+    <enclosure>"</enclosure>
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>Y</enclosure_fix_disabled>
+    <header>Y</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
+    <encoding/>
+    <endedLine/>
+    <fileNameInField>N</fileNameInField>
+    <fileNameField/>
+    <create_parent_folder>Y</create_parent_folder>
+    <file>
+      <name>${Internal.Entry.Current.Directory}/reporte_posiciones</name>
+      <is_command>N</is_command>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>N</do_not_open_new_file_init>
+      <extention>csv</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>Y</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
     <fields>
       <field>
-        <column_name>armado</column_name>
-        <stream_name>Armado</stream_name>
+        <name>Fecha</name>
+        <type>String</type>
+        <format>yyyy-MM-dd</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>10</length>
+        <precision>-1</precision>
       </field>
       <field>
-        <column_name>entidad</column_name>
-        <stream_name>Entidad</stream_name>
+        <name>Playon Ingreso</name>
+        <type>Integer</type>
+        <format>####0;-####0</format>
+        <currency/>
+        <decimal>,</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>15</length>
+        <precision>0</precision>
       </field>
       <field>
-        <column_name>cliente_destino</column_name>
-        <stream_name>Cliente.Destino</stream_name>
+        <name>Pocisiones de Almacenaje</name>
+        <type>Integer</type>
+        <format>####0;-####0</format>
+        <currency/>
+        <decimal>,</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>15</length>
+        <precision>0</precision>
       </field>
       <field>
-        <column_name>cliente_nombre</column_name>
-        <stream_name>Nombre</stream_name>
+        <name>Playon Egreso</name>
+        <type>Integer</type>
+        <format>####0;-####0</format>
+        <currency/>
+        <decimal>,</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>15</length>
+        <precision>0</precision>
       </field>
       <field>
-        <column_name>fecha_alta</column_name>
-        <stream_name>FechaAlta</stream_name>
+        <name>Repuestos</name>
+        <type>Integer</type>
+        <format>####0;-####0</format>
+        <currency/>
+        <decimal>,</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>15</length>
+        <precision>0</precision>
       </field>
       <field>
-        <column_name>fecha_fin</column_name>
-        <stream_name>FechaFin</stream_name>
-      </field>
-      <field>
-        <column_name>pcc</column_name>
-        <stream_name>PCC</stream_name>
-      </field>
-      <field>
-        <column_name>estado</column_name>
-        <stream_name>Estado</stream_name>
-      </field>
-      <field>
-        <column_name>documento</column_name>
-        <stream_name>Delivery</stream_name>
-      </field>
-      <field>
-        <column_name>fecha_ppc</column_name>
-        <stream_name>FechaPCC</stream_name>
-      </field>
-      <field>
-        <column_name>cliente_id</column_name>
-        <stream_name>cliente_id</stream_name>
-      </field>
-      <field>
-        <column_name>observacion</column_name>
-        <stream_name>Observación</stream_name>
-      </field>
-      <field>
-        <column_name>cant_documento</column_name>
-        <stream_name>Ud.Pedidas</stream_name>
-      </field>
-      <field>
-        <column_name>cant_preparada</column_name>
-        <stream_name>Ud.Preparadas</stream_name>
+        <name>Total</name>
+        <type>Integer</type>
+        <format>####0;-####0</format>
+        <currency/>
+        <decimal>,</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>15</length>
+        <precision>0</precision>
       </field>
     </fields>
     <cluster_schema/>
@@ -661,8 +660,8 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentFecFin, S
       </output>
     </remotesteps>
     <GUI>
-      <xloc>496</xloc>
-      <yloc>128</yloc>
+      <xloc>384</xloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

@@ -394,12 +394,12 @@
       <type>MAIL</type>
       <server>smtp.office365.com</server>
       <port>587</port>
-      <destination>loginbound@brother.com.ar aamaya@brother.com.ar cobranzas@brother.com.ar nferrari@brother.com.ar</destination>
+      <destination>esteban@penalty.com.ar daniel.flaibani@penaltyarg.com.ar cobranzas@penalty.com.ar </destination>
       <destinationCc>ostuhldreher@vaclog.com lgutierrez@vaclog.com ggomez@vaclog.com</destinationCc>
       <destinationBCc/>
       <replyto>VOTSInformes@vaclog.com</replyto>
       <replytoname>VACLOG WD - Reportes</replytoname>
-      <subject>Reporte Diario de Estados de Pedidos</subject>
+      <subject>PENALTY Reporte Diario de Estados de Pedido</subject>
       <include_date>Y</include_date>
       <contact_person>ostuhldreher@vaclog.com</contact_person>
       <contact_phone/>
