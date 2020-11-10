@@ -454,12 +454,12 @@
     </hop>
     <hop>
       <from>CSV file input</from>
-      <to>Write to log</to>
+      <to>PROCESANDO ARCHIVO</to>
       <enabled>N</enabled>
     </hop>
     <hop>
       <from>Get rows from result</from>
-      <to>Write to log</to>
+      <to>PROCESANDO ARCHIVO</to>
       <enabled>N</enabled>
     </hop>
     <hop>
@@ -469,12 +469,12 @@
     </hop>
     <hop>
       <from>Add constants</from>
-      <to>Modified Java Script Value 2</to>
+      <to>Splits</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Copy rows to result 2</from>
-      <to>Write to log 3</to>
+      <to>GENERO ARCHIVO</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -493,7 +493,7 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Modified Java Script Value 2</from>
+      <from>Splits</from>
       <to>Nuevo Archivo</to>
       <enabled>Y</enabled>
     </hop>
@@ -505,6 +505,11 @@
     <hop>
       <from>Get Variables</from>
       <to>Get rows from result</to>
+      <enabled>N</enabled>
+    </hop>
+    <hop>
+      <from>Add constants</from>
+      <to>DATOS DEL ARCHIVO</to>
       <enabled>N</enabled>
     </hop>
   </order>
@@ -528,30 +533,6 @@
         <decimal/>
         <group/>
         <nullif>C:\Users\ValkUser\OneDrive - VACLOG\Orien\ELCA\VALKIMIA\NOTA_DE_VENTA</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>procesados</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>%%salida%%</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>oldpath</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>${SALIDAPATH}</nullif>
         <length>-1</length>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
@@ -777,6 +758,128 @@
     </GUI>
   </step>
   <step>
+    <name>DATOS DEL ARCHIVO</name>
+    <type>WriteToLog</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <loglevel>log_level_basic</loglevel>
+    <displayHeader>Y</displayHeader>
+    <limitRows>N</limitRows>
+    <limitRowsNumber>0</limitRowsNumber>
+    <logmessage/>
+    <fields>
+      <field>
+        <name>empresa</name>
+      </field>
+      <field>
+        <name>tipo</name>
+      </field>
+      <field>
+        <name>numero_pedido</name>
+      </field>
+      <field>
+        <name>codigo_destino</name>
+      </field>
+      <field>
+        <name>fecha_1</name>
+      </field>
+      <field>
+        <name>fecha_2</name>
+      </field>
+      <field>
+        <name>fecha_3</name>
+      </field>
+      <field>
+        <name>desc_1</name>
+      </field>
+      <field>
+        <name>desc_2</name>
+      </field>
+      <field>
+        <name>item</name>
+      </field>
+      <field>
+        <name>codigo_articulo</name>
+      </field>
+      <field>
+        <name>cantidad</name>
+      </field>
+      <field>
+        <name>ticket</name>
+      </field>
+      <field>
+        <name>filename</name>
+      </field>
+      <field>
+        <name>output</name>
+      </field>
+      <field>
+        <name>procesados</name>
+      </field>
+      <field>
+        <name>oldpath</name>
+      </field>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>320</xloc>
+      <yloc>128</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>GENERO ARCHIVO</name>
+    <type>WriteToLog</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <loglevel>log_level_basic</loglevel>
+    <displayHeader>Y</displayHeader>
+    <limitRows>N</limitRows>
+    <limitRowsNumber>0</limitRowsNumber>
+    <logmessage/>
+    <fields>
+      <field>
+        <name>filename</name>
+      </field>
+      <field>
+        <name>nuevo_archivo</name>
+      </field>
+      <field>
+        <name>shortname</name>
+      </field>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>864</xloc>
+      <yloc>304</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Get Variables</name>
     <type>GetVariable</type>
     <description/>
@@ -842,71 +945,6 @@
     </remotesteps>
     <GUI>
       <xloc>32</xloc>
-      <yloc>32</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Modified Java Script Value 2</name>
-    <type>ScriptValueMod</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>
-      <jsScript>
-        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>//Script here
-
-var shortname = filename.split(/[\\/]/).pop();
-var path = getParentFoldername(filename);
-
-var tipo_pedido = tipo.split('|');
-var pedido_nuevo = tipo_pedido[1] + numero_pedido;</jsScript_script>
-      </jsScript>
-    </jsScripts>
-    <fields>
-      <field>
-        <name>shortname</name>
-        <rename>shortname</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>path</name>
-        <rename>path</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>pedido_nuevo</name>
-        <rename>pedido_nuevo</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>496</xloc>
       <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
@@ -998,6 +1036,134 @@ var pedido_nuevo = tipo_pedido[1] + numero_pedido;</jsScript_script>
     </GUI>
   </step>
   <step>
+    <name>PASO JAVASCRIPT</name>
+    <type>WriteToLog</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <loglevel>log_level_basic</loglevel>
+    <displayHeader>Y</displayHeader>
+    <limitRows>N</limitRows>
+    <limitRowsNumber>0</limitRowsNumber>
+    <logmessage/>
+    <fields>
+      <field>
+        <name>empresa</name>
+      </field>
+      <field>
+        <name>tipo</name>
+      </field>
+      <field>
+        <name>numero_pedido</name>
+      </field>
+      <field>
+        <name>codigo_destino</name>
+      </field>
+      <field>
+        <name>fecha_1</name>
+      </field>
+      <field>
+        <name>fecha_2</name>
+      </field>
+      <field>
+        <name>fecha_3</name>
+      </field>
+      <field>
+        <name>desc_1</name>
+      </field>
+      <field>
+        <name>desc_2</name>
+      </field>
+      <field>
+        <name>item</name>
+      </field>
+      <field>
+        <name>codigo_articulo</name>
+      </field>
+      <field>
+        <name>cantidad</name>
+      </field>
+      <field>
+        <name>ticket</name>
+      </field>
+      <field>
+        <name>filename</name>
+      </field>
+      <field>
+        <name>output</name>
+      </field>
+      <field>
+        <name>procesados</name>
+      </field>
+      <field>
+        <name>oldpath</name>
+      </field>
+      <field>
+        <name>shortname</name>
+      </field>
+      <field>
+        <name>path</name>
+      </field>
+      <field>
+        <name>pedido_nuevo</name>
+      </field>
+      <field>
+        <name>tipo_pedido</name>
+      </field>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>624</xloc>
+      <yloc>144</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>PROCESANDO ARCHIVO</name>
+    <type>WriteToLog</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <loglevel>log_level_basic</loglevel>
+    <displayHeader>Y</displayHeader>
+    <limitRows>N</limitRows>
+    <limitRowsNumber>0</limitRowsNumber>
+    <logmessage/>
+    <fields>
+      <field>
+        <name>filename</name>
+      </field>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>192</xloc>
+      <yloc>208</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Select values</name>
     <type>SelectValues</type>
     <description/>
@@ -1011,18 +1177,19 @@ var pedido_nuevo = tipo_pedido[1] + numero_pedido;</jsScript_script>
     <fields>
       <field>
         <name>filename</name>
+        <rename/>
       </field>
       <field>
         <name>nuevo_archivo</name>
-      </field>
-      <field>
-        <name>procesados</name>
+        <rename/>
       </field>
       <field>
         <name>shortname</name>
+        <rename/>
       </field>
       <field>
-        <name>oldpath</name>
+        <name>output</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -1035,7 +1202,80 @@ var pedido_nuevo = tipo_pedido[1] + numero_pedido;</jsScript_script>
     </remotesteps>
     <GUI>
       <xloc>496</xloc>
-      <yloc>320</yloc>
+      <yloc>336</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Splits</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+
+var shortname = filename.split(/[\\/]/).pop();
+var path = getParentFoldername(filename);
+
+var tipo_pedido = tipo.split('|');
+var pedido_nuevo = tipo_pedido[1] + numero_pedido;</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>shortname</name>
+        <rename>shortname</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>path</name>
+        <rename>path</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>pedido_nuevo</name>
+        <rename>pedido_nuevo</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>tipo_pedido</name>
+        <rename>tipo_pedido</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>496</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1265,15 +1505,11 @@ var pedido_nuevo = tipo_pedido[1] + numero_pedido;</jsScript_script>
         <case_insensitive>N</case_insensitive>
       </field>
       <field>
-        <name>procesados</name>
-        <case_insensitive>N</case_insensitive>
-      </field>
-      <field>
         <name>shortname</name>
         <case_insensitive>N</case_insensitive>
       </field>
       <field>
-        <name>oldpath</name>
+        <name>output</name>
         <case_insensitive>N</case_insensitive>
       </field>
     </fields>
@@ -1285,88 +1521,8 @@ var pedido_nuevo = tipo_pedido[1] + numero_pedido;</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>624</xloc>
-      <yloc>320</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Write to log</name>
-    <type>WriteToLog</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <loglevel>log_level_basic</loglevel>
-    <displayHeader>Y</displayHeader>
-    <limitRows>N</limitRows>
-    <limitRowsNumber>0</limitRowsNumber>
-    <logmessage/>
-    <fields>
-      <field>
-        <name>filename</name>
-      </field>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>192</xloc>
-      <yloc>208</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Write to log 3</name>
-    <type>WriteToLog</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <loglevel>log_level_basic</loglevel>
-    <displayHeader>Y</displayHeader>
-    <limitRows>N</limitRows>
-    <limitRowsNumber>0</limitRowsNumber>
-    <logmessage/>
-    <fields>
-      <field>
-        <name>filename</name>
-      </field>
-      <field>
-        <name>nuevo_archivo</name>
-      </field>
-      <field>
-        <name>procesados</name>
-      </field>
-      <field>
-        <name>shortname</name>
-      </field>
-      <field>
-        <name>oldpath</name>
-      </field>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>864</xloc>
-      <yloc>304</yloc>
+      <xloc>640</xloc>
+      <yloc>336</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

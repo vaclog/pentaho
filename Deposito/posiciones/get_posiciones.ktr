@@ -633,6 +633,7 @@ from DEPUBI left
 join art on DepArtId = ARTID 
 where depid in (1) and DepCntDisF > 0 and DepSecCod in (select DepSecCod from DEPSEC where DepSecTipo = 'A')
 and DepUbiPrv = 1032
+and left(DepPosC, 2) = 'CA'
 UNION ALL
 SELECT LogEntId as 'cliente_id', 
 'Muelle salida' as 'ubicacion', 
