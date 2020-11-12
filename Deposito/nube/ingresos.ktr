@@ -526,14 +526,25 @@
     </partitioning>
     <connection>VKM Prod</connection>
     <sql>select 
-S1.SEntDocNro as 'Ingreso', EntID as 'Entidad', EntEntIdC as 'Proveedor', EntNombre as 'Nombre', SEntFecAlt as 'FechaAlta',
-S.SentFecFin as 'FechaFin', S.SentNroDsp as 'Remito', S.LogEntId as 'ID.Cliente', S.SEntEstEnt as 'Estado', SUM(SEntIteCnt) as 'Cnt.Remito(Ud.)',
-SUM(SEntBulCnt) as 'Cnt.Remito(Bul.)', SUM(SEntIteCon) as 'Cnt.Recibida(Ud.)', SUM(SEntBulCnf) as 'Cnt.Recibida(Bul.)'
+S1.SEntDocNro as 'Armado', 
+EntID as 'Entidad', 
+EntEntIdC as 'Proveedor', 
+EntNombre as 'Nombre', 
+SEntFecAlt as 'FechaAlta',
+S.SentFecFin as 'FechaFin', 
+S.SentNroDsp as 'Remito', 
+S.LogEntId as 'ID.Cliente', 
+S.SEntEstEnt as 'Estado', 
+S.SentObs as 'observaciones',
+SUM(SEntIteCnt) as 'Cnt.Remito(Ud.)',
+SUM(SEntBulCnt) as 'Cnt.Remito(Bul.)', 
+SUM(SEntIteCon) as 'Cnt.Recibida(Ud.)', 
+SUM(SEntBulCnf) as 'Cnt.Recibida(Bul.)'
 from SENT1 S1 (nolock)
 inner join SENT S (nolock) on S1.SEntDocNro = S.SEntDocNro
 left join ENT (nolock) on SEntEntId = EntID
-where SentTVar = 'E' and SentTipUso = 'E' and SEntEstEnt &lt;&gt; 'ANU'
-group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentNroDsp, S.LogEntId, S.SEntEstEnt, S.SentFecFin</sql>
+where SentTVar = 'E' and SentTipUso = 'E' and SEntEstEnt = 'CNF' 
+group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentNroDsp, S.LogEntId, S.SEntEstEnt, S.SentFecFin, S.SentObs</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -628,6 +639,14 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentNroDsp, S
       <field>
         <column_name>cant_recibida_bulto</column_name>
         <stream_name>Cnt.Recibida(Bul.)</stream_name>
+      </field>
+      <field>
+        <column_name>armado</column_name>
+        <stream_name>Armado</stream_name>
+      </field>
+      <field>
+        <column_name>observaciones</column_name>
+        <stream_name>observaciones</stream_name>
       </field>
     </fields>
     <cluster_schema/>

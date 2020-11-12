@@ -6,6 +6,7 @@
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
     </parameters>
@@ -436,14 +437,14 @@
   <notepads>
   </notepads>
   <connection>
-    <name>Remito Nube</name>
-    <server>agribiz-db-us-east-2b.chiwaqowuag1.us-east-2.rds.amazonaws.com</server>
-    <type>MARIADB</type>
+    <name>VKM Prod</name>
+    <server>SRV-DB</server>
+    <type>MSSQL</type>
     <access>Native</access>
-    <database>remito_qa</database>
-    <port>3306</port>
-    <username>agribiz</username>
-    <password>Encrypted 2be98afc86ac69596a21ba76a8cc2fe82</password>
+    <database>VKM_Prod</database>
+    <port>1433</port>
+    <username>vaclog</username>
+    <password>Encrypted 2be98afc86aa7f28ca415af349ac3fd89</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -461,8 +462,12 @@
         <attribute>N</attribute>
       </attribute>
       <attribute>
+        <code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
         <code>PORT_NUMBER</code>
-        <attribute>3306</attribute>
+        <attribute>1433</attribute>
       </attribute>
       <attribute>
         <code>PRESERVE_RESERVED_WORD_CASE</code>
@@ -474,11 +479,11 @@
       </attribute>
       <attribute>
         <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
-        <attribute>Y</attribute>
+        <attribute>N</attribute>
       </attribute>
       <attribute>
         <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
-        <attribute>Y</attribute>
+        <attribute>N</attribute>
       </attribute>
       <attribute>
         <code>USE_POOLING</code>
@@ -486,29 +491,10 @@
       </attribute>
     </attributes>
   </connection>
-  <connection>
-    <name>VKM Prod</name>
-    <server>SRV-DB</server>
-    <type>MSSQL</type>
-    <access>Native</access>
-    <database>VKM_Prod</database>
-    <port>1433</port>
-    <username>vaclog</username>
-    <password>Encrypted 2be98afc86aa7f28ca415af349ac3fd89</password>
-    <servername/>
-    <data_tablespace/>
-    <index_tablespace/>
-    <attributes>
-      <attribute>
-        <code>PORT_NUMBER</code>
-        <attribute>1433</attribute>
-      </attribute>
-    </attributes>
-  </connection>
   <order>
     <hop>
       <from>SALIDAS</from>
-      <to>SALIDAS NUBE</to>
+      <to>Text file output</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -516,7 +502,7 @@
     <name>SALIDAS</name>
     <type>TableInput</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -524,31 +510,31 @@
       <schema_name/>
     </partitioning>
     <connection>VKM Prod</connection>
-    <sql>
-select 
-S1.SEntDocNro as 'Armado', 
-EntID as 'Entidad', 
-EntEntIdC as 'Cliente.Destino', 
+    <sql>select 
+S1.SEntDocNro as 'Armado', EntID as 'Entidad', EntEntIdC as 'Cliente.Destino', 
 EntNombre as 'Nombre',
-SEntFecAlt as 'FechaAlta', 
-S.SentFecFin as 'FechaFin', 
+CONVERT(VARCHAR(30), SEntFecAlt, 103) as 'FechaAlta', 
+CONVERT(VARCHAR(30), S.SentFecFin, 103) as 'FechaFin', 
 S.SentPCCId as 'PCC', 
-PCCFec as 'FechaPCC',
+CASE WHEN PCCFec IS NULL THEN 'Pendiente de Entrega'
+ELSE CONVERT(VARCHAR(30), PCCFec, 103) 
+END AS 'FechaPCC',
 S.SentNroDsp as 'Delivery', 
-S.LogEntId as 'cliente_id', 
+S.LogEntId as 'ID.Cliente', 
 S.SEntEstEnt as 'Estado', 
 S.SentObs as 'Observación',
-SUM(SEntIteCnt) as 'Ud.Pedidas', 
-SUM(SEntIteCon) as 'Ud.Preparadas'
+SUM(SEntIteCnt) as 'Ud.Pedidas', SUM(SEntIteCon) as 'Ud.Preparadas'
 from SENT1 (nolock) S1
 inner join SENT S (nolock) on S1.SEntDocNro = S.SEntDocNro
 left join ENT (nolock) on SEntEntId = EntID
 left join LOPCC on SentPCCId = PCCId
-where SentTVar = 'S' 
-and SentTipUso = 'S' 
-and  SEntEstEnt &lt;&gt; 'ANU' 
-and SEntEstEnt = 'CAR'
-group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentFecFin, S.SentPCCId, PCCFec, S.SentNroDsp, S.LogEntId, S.SEntEstEnt, S.SentObs</sql>
+where SentTVar = 'S' and SentTipUso = 'S' and  SEntEstEnt &lt;&gt; 'ANU'
+AND SEntFecAlt >= DATEADD(Day, -35, GETDATE())
+AND SEntFecAlt >= '2020-08-01'
+AND S.LogEntId = 1034
+group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, 
+S.SentFecFin, S.SentPCCId, PCCFec, S.SentNroDsp, S.LogEntId, S.SEntEstEnt, S.SentObs
+ORDER BY SEntFecAlt ASC</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -562,14 +548,14 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentFecFin, S
       </output>
     </remotesteps>
     <GUI>
-      <xloc>272</xloc>
-      <yloc>128</yloc>
+      <xloc>96</xloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>SALIDAS NUBE</name>
-    <type>TableOutput</type>
+    <name>Text file output</name>
+    <type>TextFileOutput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -578,79 +564,205 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentFecFin, S
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>Remito Nube</connection>
-    <schema/>
-    <table>vkm_salidas</table>
-    <commit>500</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
+    <separator>;</separator>
+    <enclosure>"</enclosure>
+    <enclosure_forced>Y</enclosure_forced>
+    <enclosure_fix_disabled>Y</enclosure_fix_disabled>
+    <header>Y</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
+    <encoding>windows-1252</encoding>
+    <endedLine/>
+    <fileNameInField>N</fileNameInField>
+    <fileNameField/>
+    <create_parent_folder>Y</create_parent_folder>
+    <file>
+      <name>${Internal.Entry.Current.Directory}/reporte</name>
+      <is_command>N</is_command>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>N</do_not_open_new_file_init>
+      <extention>CSV</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>Y</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
     <fields>
       <field>
-        <column_name>armado</column_name>
-        <stream_name>Armado</stream_name>
+        <name>Armado</name>
+        <type>Integer</type>
+        <format>####0;-####0</format>
+        <currency/>
+        <decimal>,</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>8</length>
+        <precision>0</precision>
       </field>
       <field>
-        <column_name>entidad</column_name>
-        <stream_name>Entidad</stream_name>
+        <name>Entidad</name>
+        <type>Integer</type>
+        <format>####0;-####0</format>
+        <currency/>
+        <decimal>,</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>9</length>
+        <precision>0</precision>
       </field>
       <field>
-        <column_name>cliente_destino</column_name>
-        <stream_name>Cliente.Destino</stream_name>
+        <name>Cliente.Destino</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>20</length>
+        <precision>-1</precision>
       </field>
       <field>
-        <column_name>cliente_nombre</column_name>
-        <stream_name>Nombre</stream_name>
+        <name>Nombre</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>both</trim_type>
+        <length>35</length>
+        <precision>-1</precision>
       </field>
       <field>
-        <column_name>fecha_alta</column_name>
-        <stream_name>FechaAlta</stream_name>
+        <name>FechaAlta</name>
+        <type>Date</type>
+        <format>dd/MM/yyyy</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>8</length>
+        <precision>-1</precision>
       </field>
       <field>
-        <column_name>fecha_fin</column_name>
-        <stream_name>FechaFin</stream_name>
+        <name>FechaFin</name>
+        <type>Date</type>
+        <format>dd/MM/yyyy</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>8</length>
+        <precision>-1</precision>
       </field>
       <field>
-        <column_name>pcc</column_name>
-        <stream_name>PCC</stream_name>
+        <name>PCC</name>
+        <type>Integer</type>
+        <format>####0;-####0</format>
+        <currency/>
+        <decimal>,</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>8</length>
+        <precision>0</precision>
       </field>
       <field>
-        <column_name>estado</column_name>
-        <stream_name>Estado</stream_name>
+        <name>FechaPCC</name>
+        <type>Date</type>
+        <format>dd/MM/yyyy</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>30</length>
+        <precision>-1</precision>
       </field>
       <field>
-        <column_name>documento</column_name>
-        <stream_name>Delivery</stream_name>
+        <name>Delivery</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>20</length>
+        <precision>-1</precision>
       </field>
       <field>
-        <column_name>fecha_ppc</column_name>
-        <stream_name>FechaPCC</stream_name>
+        <name>ID.Cliente</name>
+        <type>Integer</type>
+        <format>####0;-####0</format>
+        <currency/>
+        <decimal>,</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>9</length>
+        <precision>0</precision>
       </field>
       <field>
-        <column_name>cliente_id</column_name>
-        <stream_name>cliente_id</stream_name>
+        <name>Estado</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>3</length>
+        <precision>-1</precision>
       </field>
       <field>
-        <column_name>observacion</column_name>
-        <stream_name>Observación</stream_name>
+        <name>Observación</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>both</trim_type>
+        <length>255</length>
+        <precision>-1</precision>
       </field>
       <field>
-        <column_name>cant_documento</column_name>
-        <stream_name>Ud.Pedidas</stream_name>
+        <name>Ud.Pedidas</name>
+        <type>Integer</type>
+        <format>####0;-####0</format>
+        <currency/>
+        <decimal>.</decimal>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>8</length>
+        <precision>0</precision>
       </field>
       <field>
-        <column_name>cant_preparada</column_name>
-        <stream_name>Ud.Preparadas</stream_name>
+        <name>Ud.Preparadas</name>
+        <type>Integer</type>
+        <format>####0;-####0</format>
+        <currency/>
+        <decimal>.</decimal>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>8</length>
+        <precision>0</precision>
       </field>
     </fields>
     <cluster_schema/>
@@ -661,8 +773,8 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentFecFin, S
       </output>
     </remotesteps>
     <GUI>
-      <xloc>496</xloc>
-      <yloc>128</yloc>
+      <xloc>320</xloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

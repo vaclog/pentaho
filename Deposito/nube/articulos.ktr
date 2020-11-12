@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>salidas</name>
+    <name>articulos</name>
     <description/>
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
     </parameters>
@@ -507,16 +508,21 @@
   </connection>
   <order>
     <hop>
-      <from>SALIDAS</from>
-      <to>SALIDAS NUBE</to>
+      <from>Articulos VALKIMIA</from>
+      <to>ARTICULOS NUBE</to>
+      <enabled>N</enabled>
+    </hop>
+    <hop>
+      <from>Articulos VALKIMIA</from>
+      <to>ARTICULOS NUBE</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>SALIDAS</name>
+    <name>Articulos VALKIMIA</name>
     <type>TableInput</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -524,31 +530,14 @@
       <schema_name/>
     </partitioning>
     <connection>VKM Prod</connection>
-    <sql>
-select 
-S1.SEntDocNro as 'Armado', 
-EntID as 'Entidad', 
-EntEntIdC as 'Cliente.Destino', 
-EntNombre as 'Nombre',
-SEntFecAlt as 'FechaAlta', 
-S.SentFecFin as 'FechaFin', 
-S.SentPCCId as 'PCC', 
-PCCFec as 'FechaPCC',
-S.SentNroDsp as 'Delivery', 
-S.LogEntId as 'cliente_id', 
-S.SEntEstEnt as 'Estado', 
-S.SentObs as 'Observación',
-SUM(SEntIteCnt) as 'Ud.Pedidas', 
-SUM(SEntIteCon) as 'Ud.Preparadas'
-from SENT1 (nolock) S1
-inner join SENT S (nolock) on S1.SEntDocNro = S.SEntDocNro
-left join ENT (nolock) on SEntEntId = EntID
-left join LOPCC on SentPCCId = PCCId
-where SentTVar = 'S' 
-and SentTipUso = 'S' 
-and  SEntEstEnt &lt;&gt; 'ANU' 
-and SEntEstEnt = 'CAR'
-group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentFecFin, S.SentPCCId, PCCFec, S.SentNroDsp, S.LogEntId, S.SEntEstEnt, S.SentObs</sql>
+    <sql>SELECT
+  ARTID as articulo_valkimia_id
+, ArtNom as nombre
+, ArtEntIDPr as cliente_id
+, ArtEtaId1 as articulo_codigo
+
+FROM ART
+</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -562,13 +551,13 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentFecFin, S
       </output>
     </remotesteps>
     <GUI>
-      <xloc>272</xloc>
-      <yloc>128</yloc>
+      <xloc>256</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>SALIDAS NUBE</name>
+    <name>ARTICULOS NUBE</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -580,7 +569,7 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentFecFin, S
     </partitioning>
     <connection>Remito Nube</connection>
     <schema/>
-    <table>vkm_salidas</table>
+    <table>vkm_articulos</table>
     <commit>500</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
@@ -597,60 +586,20 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentFecFin, S
     <return_field/>
     <fields>
       <field>
-        <column_name>armado</column_name>
-        <stream_name>Armado</stream_name>
-      </field>
-      <field>
-        <column_name>entidad</column_name>
-        <stream_name>Entidad</stream_name>
-      </field>
-      <field>
-        <column_name>cliente_destino</column_name>
-        <stream_name>Cliente.Destino</stream_name>
-      </field>
-      <field>
-        <column_name>cliente_nombre</column_name>
-        <stream_name>Nombre</stream_name>
-      </field>
-      <field>
-        <column_name>fecha_alta</column_name>
-        <stream_name>FechaAlta</stream_name>
-      </field>
-      <field>
-        <column_name>fecha_fin</column_name>
-        <stream_name>FechaFin</stream_name>
-      </field>
-      <field>
-        <column_name>pcc</column_name>
-        <stream_name>PCC</stream_name>
-      </field>
-      <field>
-        <column_name>estado</column_name>
-        <stream_name>Estado</stream_name>
-      </field>
-      <field>
-        <column_name>documento</column_name>
-        <stream_name>Delivery</stream_name>
-      </field>
-      <field>
-        <column_name>fecha_ppc</column_name>
-        <stream_name>FechaPCC</stream_name>
+        <column_name>articulo_valkimia_id</column_name>
+        <stream_name>articulo_valkimia_id</stream_name>
       </field>
       <field>
         <column_name>cliente_id</column_name>
         <stream_name>cliente_id</stream_name>
       </field>
       <field>
-        <column_name>observacion</column_name>
-        <stream_name>Observación</stream_name>
+        <column_name>articulo_codigo</column_name>
+        <stream_name>articulo_codigo</stream_name>
       </field>
       <field>
-        <column_name>cant_documento</column_name>
-        <stream_name>Ud.Pedidas</stream_name>
-      </field>
-      <field>
-        <column_name>cant_preparada</column_name>
-        <stream_name>Ud.Preparadas</stream_name>
+        <column_name>articulo_descripcion</column_name>
+        <stream_name>nombre</stream_name>
       </field>
     </fields>
     <cluster_schema/>
@@ -661,8 +610,8 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentFecFin, S
       </output>
     </remotesteps>
     <GUI>
-      <xloc>496</xloc>
-      <yloc>128</yloc>
+      <xloc>432</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
