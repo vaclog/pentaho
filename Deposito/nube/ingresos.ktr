@@ -441,10 +441,10 @@
     <server>agribiz-db-us-east-2b.chiwaqowuag1.us-east-2.rds.amazonaws.com</server>
     <type>MARIADB</type>
     <access>Native</access>
-    <database>remito_qa</database>
+    <database>remito_test</database>
     <port>3306</port>
-    <username>agribiz</username>
-    <password>Encrypted 2be98afc86ac69596a21ba76a8cc2fe82</password>
+    <username>remito_admin</username>
+    <password>Encrypted 2be98afc86aa7a485a815a1779ac3fd89</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -558,7 +558,7 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentNroDsp, S
       </output>
     </remotesteps>
     <GUI>
-      <xloc>272</xloc>
+      <xloc>224</xloc>
       <yloc>128</yloc>
       <draw>Y</draw>
     </GUI>
@@ -657,7 +657,7 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentNroDsp, S
       </output>
     </remotesteps>
     <GUI>
-      <xloc>496</xloc>
+      <xloc>512</xloc>
       <yloc>128</yloc>
       <draw>Y</draw>
     </GUI>
