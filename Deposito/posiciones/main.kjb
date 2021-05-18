@@ -375,8 +375,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>448</xloc>
-      <yloc>96</yloc>
+      <xloc>384</xloc>
+      <yloc>80</yloc>
     </entry>
     <entry>
       <name>LeoNombredeArchivo</name>
@@ -412,7 +412,7 @@
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>624</xloc>
-      <yloc>112</yloc>
+      <yloc>64</yloc>
     </entry>
     <entry>
       <name>Mail 2</name>
@@ -474,7 +474,51 @@ Saludos
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>848</xloc>
-      <yloc>112</yloc>
+      <yloc>144</yloc>
+    </entry>
+    <entry>
+      <name>Errores</name>
+      <description/>
+      <type>MAIL</type>
+      <server>smtp.office365.com</server>
+      <port>587</port>
+      <destination>ticketsrva@gmail.com</destination>
+      <destinationCc/>
+      <destinationBCc/>
+      <replyto>VOTSInformes@vaclog.com</replyto>
+      <replytoname>VACLOG WD - Reportes</replytoname>
+      <subject>BROTHER Resumen Posiciones - ERROR</subject>
+      <include_date>Y</include_date>
+      <contact_person/>
+      <contact_phone/>
+      <comment>Ocurrio un error con el resumen de posiciones de brother
+</comment>
+      <include_files>Y</include_files>
+      <zip_files>N</zip_files>
+      <zip_name/>
+      <use_auth>Y</use_auth>
+      <use_secure_auth>Y</use_secure_auth>
+      <auth_user>VOTSInformes@vaclog.onmicrosoft.com</auth_user>
+      <auth_password>Encrypted 2be98afc86aa7b18b8816f622f29d8cd5</auth_password>
+      <only_comment>Y</only_comment>
+      <use_HTML>N</use_HTML>
+      <use_Priority>N</use_Priority>
+      <encoding>UTF-8</encoding>
+      <priority>normal</priority>
+      <importance>normal</importance>
+      <sensitivity>normal</sensitivity>
+      <secureconnectiontype>TLS</secureconnectiontype>
+      <replyToAddresses/>
+      <filetypes>
+        <filetype>ERROR</filetype>
+      </filetypes>
+      <embeddedimages>
+      </embeddedimages>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>483</xloc>
+      <yloc>344</yloc>
     </entry>
   </entries>
   <hops>
@@ -521,7 +565,43 @@ Saludos
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
-      <unconditional>Y</unconditional>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Foto de Pociciones</from>
+      <to>Errores</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Resumen diario posiciones</from>
+      <to>Errores</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>LeoNombredeArchivo</from>
+      <to>Errores</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Errores</from>
+      <to>Success</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
     </hop>
   </hops>
   <notepads>

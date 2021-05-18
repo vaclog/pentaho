@@ -7,23 +7,13 @@
   <job_status>0</job_status>
   <directory>/</directory>
   <created_user>-</created_user>
-  <created_date>2020/03/03 13:00:31.173</created_date>
+  <created_date>2020/11/24 14:56:45.179</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2020/03/03 13:00:31.173</modified_date>
+  <modified_date>2020/11/24 14:56:45.179</modified_date>
   <parameters>
     <parameter>
-      <name>ORIEN_PATH</name>
-      <default_value>C:\Users\ValkUser\Documents\GitHub\pentaho\Deposito\orien\ingreso\output</default_value>
-      <description/>
-    </parameter>
-    <parameter>
-      <name>PROCESSED_PATH</name>
-      <default_value>T:\T_EntradaOut\</default_value>
-      <description/>
-    </parameter>
-    <parameter>
       <name>SOURCE_PATH</name>
-      <default_value>T:\T_EntradaOut</default_value>
+      <default_value>\\192.168.0.200\OrienInterfaces\T_EntradaOut</default_value>
       <description/>
     </parameter>
   </parameters>
@@ -319,16 +309,16 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>112</xloc>
-      <yloc>48</yloc>
+      <xloc>128</xloc>
+      <yloc>160</yloc>
     </entry>
     <entry>
-      <name>BuscarArchivos</name>
+      <name>Procesar Archivo</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/getfiles.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/GetandSave.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -349,74 +339,14 @@
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
-      <argument0>ORIEN_PATH</argument0>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
-        <parameter>
-          <name>SOURCE_PATH</name>
-          <stream_name/>
-          <value>${SOURCE_PATH}</value>
-        </parameter>
       </parameters>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>288</xloc>
-      <yloc>48</yloc>
-    </entry>
-    <entry>
-      <name>ProcessFile</name>
-      <description/>
-      <type>JOB</type>
-      <specification_method>filename</specification_method>
-      <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/savefile.kjb</filename>
-      <jobname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>Y</exec_per_row>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Nothing</loglevel>
-      <slave_server_name/>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
-      <create_parent_folder>N</create_parent_folder>
-      <pass_export>N</pass_export>
-      <run_configuration>Pentaho local</run_configuration>
-      <parameters>
-        <pass_all_parameters>Y</pass_all_parameters>
-        <parameter>
-          <name>FILENAME</name>
-          <stream_name/>
-          <value/>
-        </parameter>
-        <parameter>
-          <name>PROCESSED_PATH</name>
-          <stream_name/>
-          <value>${PROCESSED_PATH}</value>
-        </parameter>
-        <parameter>
-          <name>ORIEN_PATH</name>
-          <stream_name/>
-          <value>${ORIEN_PATH}</value>
-        </parameter>
-        <parameter>
-          <name>SOURCE_PATH</name>
-          <stream_name/>
-          <value>${SOURCE_PATH}</value>
-        </parameter>
-      </parameters>
-      <set_append_logfile>N</set_append_logfile>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>480</xloc>
-      <yloc>48</yloc>
+      <xloc>272</xloc>
+      <yloc>160</yloc>
     </entry>
     <entry>
       <name>Success</name>
@@ -425,37 +355,28 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>720</xloc>
-      <yloc>112</yloc>
+      <xloc>592</xloc>
+      <yloc>160</yloc>
     </entry>
   </entries>
   <hops>
     <hop>
-      <from>BuscarArchivos</from>
-      <to>ProcessFile</to>
+      <from>START</from>
+      <to>Procesar Archivo</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
+      <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>ProcessFile</from>
+      <from>Procesar Archivo</from>
       <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>START</from>
-      <to>BuscarArchivos</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>Y</unconditional>
     </hop>
   </hops>
   <notepads>

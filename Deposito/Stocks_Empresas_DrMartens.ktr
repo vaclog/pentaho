@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>pcc</name>
+    <name>Stocks_Empresas_DrMartens</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -428,30 +428,30 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2020/05/12 15:27:23.588</created_date>
+    <created_date>2019/12/10 15:29:12.757</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2020/05/12 15:27:23.588</modified_date>
+    <modified_date>2019/12/10 15:29:12.757</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
-    <name>Remito Nube</name>
-    <server>agribiz-db-us-east-2b.chiwaqowuag1.us-east-2.rds.amazonaws.com</server>
-    <type>MARIADB</type>
+    <name>Prod</name>
+    <server>127.0.0.1</server>
+    <type>MSSQLNATIVE</type>
     <access>Native</access>
-    <database>remito_test</database>
-    <port>3306</port>
-    <username>remito_admin</username>
-    <password>Encrypted 2be98afc86aa7a485a815a1779ac3fd89</password>
+    <database>VKM_Prod</database>
+    <port>1433</port>
+    <username/>
+    <password>Encrypted </password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
     <attributes>
       <attribute>
-        <code>EXTRA_OPTION_MARIADB.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
+        <code>EXTRA_OPTION_MSSQLNATIVE.instance</code>
+        <attribute>SRV-DB\SQL2008R2EX</attribute>
       </attribute>
       <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
@@ -466,8 +466,16 @@
         <attribute>N</attribute>
       </attribute>
       <attribute>
+        <code>MSSQLUseIntegratedSecurity</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
         <code>PORT_NUMBER</code>
-        <attribute>3306</attribute>
+        <attribute>1433</attribute>
       </attribute>
       <attribute>
         <code>PRESERVE_RESERVED_WORD_CASE</code>
@@ -491,35 +499,99 @@
       </attribute>
     </attributes>
   </connection>
-  <connection>
-    <name>VKM Prod</name>
-    <server>SRV-DB</server>
-    <type>MSSQL</type>
-    <access>Native</access>
-    <database>VKM_Prod</database>
-    <port>1433</port>
-    <username>vaclog</username>
-    <password>Encrypted 2be98afc86aa7f28ca415af349ac3fd89</password>
-    <servername/>
-    <data_tablespace/>
-    <index_tablespace/>
-    <attributes>
-      <attribute>
-        <code>PORT_NUMBER</code>
-        <attribute>1433</attribute>
-      </attribute>
-    </attributes>
-  </connection>
   <order>
     <hop>
-      <from>pcc</from>
-      <to>PCC NUBE</to>
+      <from>Data Grid</from>
+      <to>Sort rows 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Merge Join</from>
+      <to>Sort rows 3</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows</from>
+      <to>Merge Join</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows 2</from>
+      <to>Merge Join</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Table input</from>
+      <to>Sort rows</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows 3</from>
+      <to>Microsoft Excel Output</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>PCC NUBE</name>
-    <type>TableOutput</type>
+    <name>Data Grid</name>
+    <type>DataGrid</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>Deposito</name>
+        <type>Integer</type>
+        <format>#</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>15</length>
+        <precision>0</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>Deposito_nombre</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <data>
+      <line>
+        <item>1</item>
+        <item>OK</item>
+      </line>
+      <line>
+        <item>700004</item>
+        <item>NOOK</item>
+      </line>
+    </data>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>310</xloc>
+      <yloc>263</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Merge Join</name>
+    <type>MergeJoin</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -528,43 +600,161 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>Remito Nube</connection>
-    <schema/>
-    <table>vkm_pcc</table>
-    <commit>500</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
+    <join_type>INNER</join_type>
+    <step1>Sort rows</step1>
+    <step2>Sort rows 2</step2>
+    <keys_1>
+      <key>deposito_id</key>
+    </keys_1>
+    <keys_2>
+      <key>Deposito</key>
+    </keys_2>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>438</xloc>
+      <yloc>71</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Microsoft Excel Output</name>
+    <type>ExcelOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <header>Y</header>
+    <footer>N</footer>
+    <encoding/>
+    <append>N</append>
+    <add_to_result_filenames>Y</add_to_result_filenames>
+    <file>
+      <name>D:\Stocks\DrMartens\DrMartens</name>
+      <extention>xls</extention>
+      <do_not_open_newfile_init>N</do_not_open_newfile_init>
+      <create_parent_folder>N</create_parent_folder>
+      <split>N</split>
+      <add_date>Y</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <sheetname>Stock</sheetname>
+      <autosizecolums>Y</autosizecolums>
+      <nullisblank>N</nullisblank>
+      <protect_sheet>N</protect_sheet>
+      <password>Encrypted </password>
+      <splitevery>0</splitevery>
+      <usetempfiles>N</usetempfiles>
+      <tempdirectory/>
+    </file>
+    <template>
+      <enabled>N</enabled>
+      <append>N</append>
+      <filename>template.xls</filename>
+    </template>
     <fields>
       <field>
-        <column_name>pcc_id</column_name>
-        <stream_name>ID.PCC</stream_name>
+        <name>deposito_id</name>
+        <type>Integer</type>
+        <format/>
       </field>
       <field>
-        <column_name>fecha_creacion</column_name>
-        <stream_name>FechaCreación</stream_name>
+        <name>articulo_codigo</name>
+        <type>String</type>
+        <format/>
       </field>
       <field>
-        <column_name>fecha_fin</column_name>
-        <stream_name>FechaFin</stream_name>
+        <name>articulo_nombre</name>
+        <type>String</type>
+        <format/>
       </field>
       <field>
-        <column_name>estado</column_name>
-        <stream_name>Estado</stream_name>
+        <name>articulo_cantidad</name>
+        <type>BigNumber</type>
+        <format/>
       </field>
       <field>
-        <column_name>cant_etiqueta</column_name>
-        <stream_name>Cant.Etiquetas</stream_name>
+        <name>Deposito</name>
+        <type>Integer</type>
+        <format/>
+      </field>
+      <field>
+        <name>Deposito_nombre</name>
+        <type>String</type>
+        <format/>
+      </field>
+      <field>
+        <name>posicion</name>
+        <type>None</type>
+        <format/>
+      </field>
+    </fields>
+    <custom>
+      <header_font_name>arial</header_font_name>
+      <header_font_size>10</header_font_size>
+      <header_font_bold>N</header_font_bold>
+      <header_font_italic>N</header_font_italic>
+      <header_font_underline>no</header_font_underline>
+      <header_font_orientation>horizontal</header_font_orientation>
+      <header_font_color>black</header_font_color>
+      <header_background_color>none</header_background_color>
+      <header_row_height>255</header_row_height>
+      <header_alignment>left</header_alignment>
+      <header_image/>
+      <row_font_name>arial</row_font_name>
+      <row_font_size>10</row_font_size>
+      <row_font_color>black</row_font_color>
+      <row_background_color>none</row_background_color>
+    </custom>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>672</xloc>
+      <yloc>80</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>deposito_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
       </field>
     </fields>
     <cluster_schema/>
@@ -575,13 +765,95 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>496</xloc>
-      <yloc>128</yloc>
+      <xloc>310</xloc>
+      <yloc>71</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>pcc</name>
+    <name>Sort rows 2</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>Deposito</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>390</xloc>
+      <yloc>167</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows 3</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>articulo_codigo</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>518</xloc>
+      <yloc>71</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Table input</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -591,13 +863,17 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>VKM Prod</connection>
-    <sql>select 
-Tr2DocId as 'ID.PCC', PCCFec as 'FechaCreación', MAX(Tr2AsgFecF) as 'FechaFin', PCCEST as 'Estado', COUNT(Tr2DocId) as 'Cant.Etiquetas'
-From STRA2 (nolock)
-inner join LOPCC (nolock) on Tr2DocId = PCCId
-group by Tr2DocId, PCCFec, PCCEST
-</sql>
+    <connection>Prod</connection>
+    <sql>SELECT D.DEPID AS deposito_id, A.ArtEtaId1 AS articulo_codigo,    A.ArtNom AS articulo_nombre,
+	sum(D.DepCntDisF) AS articulo_cantidad, d.DepPosC as posicion
+FROM DEPUBI D
+LEFT JOIN ART A ON A.ARTID = D.DepArtId
+WHERE D.DepUbiPrv = 12297
+
+AND D.DepArtId != 0
+
+
+GROUP BY A.ArtEtaId1, A.ArtNom, D.DEPID, d.depposc</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -611,8 +887,8 @@ group by Tr2DocId, PCCFec, PCCEST
       </output>
     </remotesteps>
     <GUI>
-      <xloc>272</xloc>
-      <yloc>128</yloc>
+      <xloc>166</xloc>
+      <yloc>71</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

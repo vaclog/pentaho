@@ -441,14 +441,18 @@
     <server>agribiz-db-us-east-2b.chiwaqowuag1.us-east-2.rds.amazonaws.com</server>
     <type>MARIADB</type>
     <access>Native</access>
-    <database>remito_qa</database>
+    <database>remito_test</database>
     <port>3306</port>
-    <username>agribiz</username>
-    <password>Encrypted 2be98afc86ac69596a21ba76a8cc2fe82</password>
+    <username>remito_admin</username>
+    <password>Encrypted 2be98afc86aa7a485a815a1779ac3fd89</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
     <attributes>
+      <attribute>
+        <code>EXTRA_OPTION_MARIADB.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
       <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
@@ -519,44 +523,6 @@
     </hop>
   </order>
   <step>
-    <name>Articulos VALKIMIA</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>VKM Prod</connection>
-    <sql>SELECT
-  ARTID as articulo_valkimia_id
-, ArtNom as nombre
-, ArtEntIDPr as cliente_id
-, ArtEtaId1 as articulo_codigo
-
-FROM ART
-</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>256</xloc>
-      <yloc>112</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>ARTICULOS NUBE</name>
     <type>TableOutput</type>
     <description/>
@@ -611,6 +577,44 @@ FROM ART
     </remotesteps>
     <GUI>
       <xloc>432</xloc>
+      <yloc>112</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Articulos VALKIMIA</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>VKM Prod</connection>
+    <sql>SELECT
+  ARTID as articulo_valkimia_id
+, ArtNom as nombre
+, ArtEntIDPr as cliente_id
+, ArtEtaId1 as articulo_codigo
+
+FROM ART
+</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>256</xloc>
       <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>

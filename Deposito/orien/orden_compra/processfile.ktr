@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>SaveFile</name>
+    <name>processfile</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -10,17 +10,12 @@
     <directory>/</directory>
     <parameters>
       <parameter>
-        <name>SOURCE_PATH</name>
-        <default_value>${SOURCE_PATH}</default_value>
-        <description/>
-      </parameter>
-      <parameter>
-        <name>filename</name>
+        <name>OLDPATH</name>
         <default_value/>
         <description/>
       </parameter>
       <parameter>
-        <name>procesado</name>
+        <name>SALIDAPATH</name>
         <default_value/>
         <description/>
       </parameter>
@@ -443,9 +438,9 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2020/03/03 13:11:25.285</created_date>
+    <created_date>2020/05/18 15:54:40.283</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2020/03/03 13:11:25.285</modified_date>
+    <modified_date>2020/05/18 15:54:40.283</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -453,9 +448,9 @@
   </notepads>
   <order>
     <hop>
-      <from>Add sequence</from>
-      <to>Remito Unificado</to>
-      <enabled>Y</enabled>
+      <from>Get rows from result</from>
+      <to>PROCESANDO ARCHIVO</to>
+      <enabled>N</enabled>
     </hop>
     <hop>
       <from>CSV file input</from>
@@ -464,32 +459,12 @@
     </hop>
     <hop>
       <from>Add constants</from>
-      <to>Modified Java Script Value</to>
+      <to>Splits</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Modified Java Script Value</from>
-      <to>Add sequence</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Remito Unificado</from>
-      <to>Nuevo Archivo</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Text file output</from>
-      <to>Select values</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Nuevo Archivo</from>
-      <to>Nombre de Procesados</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Nombre de Procesados</from>
-      <to>Text file output</to>
+      <from>Copy rows to result 2</from>
+      <to>GENERO ARCHIVO</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -499,36 +474,41 @@
     </hop>
     <hop>
       <from>Unique rows</from>
-      <to>Copy rows to result</to>
+      <to>Copy rows to result 2</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Copy rows to result</from>
-      <to>Write to log</to>
+      <from>Text file output</from>
+      <to>Select values</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Write to log</from>
-      <to>Set Variables</to>
+      <from>Splits</from>
+      <to>Nuevo Archivo</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Modified Java Script Value</from>
-      <to>Datos de la orden</to>
+      <from>Nuevo Archivo</from>
+      <to>Text file output</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Get Variables</from>
+      <to>Get rows from result</to>
+      <enabled>N</enabled>
+    </hop>
+    <hop>
+      <from>Add constants</from>
+      <to>DATOS DEL ARCHIVO</to>
       <enabled>N</enabled>
     </hop>
     <hop>
       <from>Get rows from result</from>
-      <to>Add constants 2</to>
+      <to>PROCESANDO ARCHIVO</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Add constants 2</from>
-      <to>PROCESANDO ARCHIVOS</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>PROCESANDO ARCHIVOS</from>
+      <from>PROCESANDO ARCHIVO</from>
       <to>CSV file input</to>
       <enabled>Y</enabled>
     </hop>
@@ -546,49 +526,25 @@
     </partitioning>
     <fields>
       <field>
-        <name>espacio1</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>espacio2</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
         <name>output</name>
         <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
-        <nullif>C:\Users\ValkUser\OneDrive - VACLOG\Orien\recepcion</nullif>
+        <nullif>\\192.168.0.200\OrienInterfaces\T_EntradaCab</nullif>
         <length>-1</length>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
       </field>
       <field>
-        <name>procesados</name>
+        <name>valor_10</name>
         <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
-        <nullif>procesados</nullif>
+        <nullif>10</nullif>
         <length>-1</length>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
@@ -603,79 +559,7 @@
     </remotesteps>
     <GUI>
       <xloc>352</xloc>
-      <yloc>64</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Add constants 2</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>archivo_a_procesar</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>${filename}</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>64</xloc>
-      <yloc>128</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Add sequence</name>
-    <type>Sequence</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <valuename>item</valuename>
-    <use_database>N</use_database>
-    <connection/>
-    <schema/>
-    <seqname>SEQ_</seqname>
-    <use_counter>Y</use_counter>
-    <counter_name/>
-    <start_at>1</start_at>
-    <increment_by>1</increment_by>
-    <max_value>999999999</max_value>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>544</xloc>
-      <yloc>80</yloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -705,39 +589,6 @@
     <encoding/>
     <fields>
       <field>
-        <name>remito_sucursal</name>
-        <type>Number</type>
-        <format>0000</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>both</trim_type>
-      </field>
-      <field>
-        <name>remito_numero</name>
-        <type>Number</type>
-        <format>00000000</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>both</trim_type>
-      </field>
-      <field>
-        <name>remito_fecha</name>
-        <type>Date</type>
-        <format>yyyyMMdd</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
         <name>empresa</name>
         <type>String</type>
         <format/>
@@ -760,18 +611,7 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>orden_compra</name>
-        <type>Number</type>
-        <format>0</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>obs</name>
+        <name>numero_pedido</name>
         <type>String</type>
         <format/>
         <currency/>
@@ -782,7 +622,7 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>proveedor_codigo</name>
+        <name>proveedor</name>
         <type>String</type>
         <format/>
         <currency/>
@@ -793,7 +633,7 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>producto_descripcion</name>
+        <name>fecha_1</name>
         <type>String</type>
         <format/>
         <currency/>
@@ -804,7 +644,7 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>producto_codigo</name>
+        <name>fecha_2</name>
         <type>String</type>
         <format/>
         <currency/>
@@ -815,29 +655,7 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>producto_cantidad</name>
-        <type>Number</type>
-        <format>0</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>item_id</name>
-        <type>Number</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>tipo_ingreso</name>
+        <name>blanco</name>
         <type>String</type>
         <format/>
         <currency/>
@@ -848,7 +666,29 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>status</name>
+        <name>item</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>codigo_articulo</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>cantidad</name>
         <type>String</type>
         <format/>
         <currency/>
@@ -873,7 +713,7 @@
     </GUI>
   </step>
   <step>
-    <name>Copy rows to result</name>
+    <name>Copy rows to result 2</name>
     <type>RowsToResult</type>
     <description/>
     <distribute>Y</distribute>
@@ -891,13 +731,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1152</xloc>
+      <xloc>752</xloc>
       <yloc>320</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Datos de la orden</name>
+    <name>DATOS DEL ARCHIVO</name>
     <type>WriteToLog</type>
     <description/>
     <distribute>Y</distribute>
@@ -914,55 +754,46 @@
     <logmessage/>
     <fields>
       <field>
-        <name>remito_sucursal</name>
-      </field>
-      <field>
-        <name>remito_numero</name>
-      </field>
-      <field>
-        <name>remito_fecha</name>
-      </field>
-      <field>
         <name>empresa</name>
       </field>
       <field>
         <name>tipo</name>
       </field>
       <field>
-        <name>orden_compra</name>
+        <name>numero_pedido</name>
       </field>
       <field>
-        <name>obs</name>
+        <name>codigo_destino</name>
       </field>
       <field>
-        <name>proveedor_codigo</name>
+        <name>fecha_1</name>
       </field>
       <field>
-        <name>producto_descripcion</name>
+        <name>fecha_2</name>
       </field>
       <field>
-        <name>producto_codigo</name>
+        <name>fecha_3</name>
       </field>
       <field>
-        <name>item_id</name>
+        <name>desc_1</name>
       </field>
       <field>
-        <name>producto_cantidad</name>
+        <name>desc_2</name>
       </field>
       <field>
-        <name>tipo_ingreso</name>
+        <name>item</name>
       </field>
       <field>
-        <name>status</name>
+        <name>codigo_articulo</name>
+      </field>
+      <field>
+        <name>cantidad</name>
+      </field>
+      <field>
+        <name>ticket</name>
       </field>
       <field>
         <name>filename</name>
-      </field>
-      <field>
-        <name>espacio1</name>
-      </field>
-      <field>
-        <name>espacio2</name>
       </field>
       <field>
         <name>output</name>
@@ -971,19 +802,7 @@
         <name>procesados</name>
       </field>
       <field>
-        <name>shortname</name>
-      </field>
-      <field>
-        <name>path</name>
-      </field>
-      <field>
-        <name>orden_compra2</name>
-      </field>
-      <field>
-        <name>salida</name>
-      </field>
-      <field>
-        <name>item_id2</name>
+        <name>oldpath</name>
       </field>
     </fields>
     <cluster_schema/>
@@ -994,8 +813,74 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>464</xloc>
-      <yloc>224</yloc>
+      <xloc>320</xloc>
+      <yloc>128</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>GENERO ARCHIVO</name>
+    <type>WriteToLog</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <loglevel>log_level_basic</loglevel>
+    <displayHeader>Y</displayHeader>
+    <limitRows>N</limitRows>
+    <limitRowsNumber>0</limitRowsNumber>
+    <logmessage/>
+    <fields>
+      <field>
+        <name>filename</name>
+      </field>
+      <field>
+        <name>nuevo_archivo</name>
+      </field>
+      <field>
+        <name>shortname</name>
+      </field>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>864</xloc>
+      <yloc>304</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Get Variables</name>
+    <type>GetVariable</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>80</xloc>
+      <yloc>336</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1003,7 +888,7 @@
     <name>Get rows from result</name>
     <type>RowsFromResult</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -1013,7 +898,7 @@
     <fields>
       <field>
         <name>filename</name>
-        <type>Internet Address</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
       </field>
@@ -1038,178 +923,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>48</xloc>
-      <yloc>256</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Modified Java Script Value</name>
-    <type>ScriptValueMod</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>
-      <jsScript>
-        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>//Script here
-
-var shortname = filename.split(/[\\/]/).pop();
-
-
-var path = getParentFoldername(filename);
-var orden_compra2 
-var salida = orden_compra.toString().substr(0,3)
-if (orden_compra.toString().substr(0,3) == '999' ){ orden_compra2 = null; item_id2 = null}
-else { orden_compra2 = orden_compra; item_id2 = item_id }</jsScript_script>
-      </jsScript>
-    </jsScripts>
-    <fields>
-      <field>
-        <name>shortname</name>
-        <rename>shortname</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>path</name>
-        <rename>path</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>orden_compra2</name>
-        <rename>orden_compra2</rename>
-        <type>Number</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>salida</name>
-        <rename>salida</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>item_id2</name>
-        <rename>item_id2</rename>
-        <type>Number</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>448</xloc>
+      <xloc>32</xloc>
       <yloc>32</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Nombre de Procesados</name>
-    <type>ConcatFields</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <separator>\</separator>
-    <enclosure/>
-    <enclosure_forced>N</enclosure_forced>
-    <enclosure_fix_disabled>N</enclosure_fix_disabled>
-    <header>N</header>
-    <footer>N</footer>
-    <format>DOS</format>
-    <compression>None</compression>
-    <encoding/>
-    <endedLine/>
-    <fileNameInField>N</fileNameInField>
-    <fileNameField/>
-    <create_parent_folder>Y</create_parent_folder>
-    <file>
-      <name>file</name>
-      <is_command>N</is_command>
-      <servlet_output>N</servlet_output>
-      <do_not_open_new_file_init>N</do_not_open_new_file_init>
-      <extention>txt</extention>
-      <append>N</append>
-      <split>N</split>
-      <haspartno>N</haspartno>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <SpecifyFormat>N</SpecifyFormat>
-      <date_time_format/>
-      <add_to_result_filenames>Y</add_to_result_filenames>
-      <pad>N</pad>
-      <fast_dump>N</fast_dump>
-      <splitevery>0</splitevery>
-    </file>
-    <fields>
-      <field>
-        <name>path</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>procesados</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-    </fields>
-    <ConcatFields>
-      <targetFieldName>procesado</targetFieldName>
-      <targetFieldLength>0</targetFieldLength>
-      <removeSelectedFields>N</removeSelectedFields>
-    </ConcatFields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>768</xloc>
-      <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1294,13 +1009,107 @@ else { orden_compra2 = orden_compra; item_id2 = item_id }</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>768</xloc>
-      <yloc>80</yloc>
+      <xloc>496</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>PROCESANDO ARCHIVOS</name>
+    <name>PASO JAVASCRIPT</name>
+    <type>WriteToLog</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <loglevel>log_level_basic</loglevel>
+    <displayHeader>Y</displayHeader>
+    <limitRows>N</limitRows>
+    <limitRowsNumber>0</limitRowsNumber>
+    <logmessage/>
+    <fields>
+      <field>
+        <name>empresa</name>
+      </field>
+      <field>
+        <name>tipo</name>
+      </field>
+      <field>
+        <name>numero_pedido</name>
+      </field>
+      <field>
+        <name>codigo_destino</name>
+      </field>
+      <field>
+        <name>fecha_1</name>
+      </field>
+      <field>
+        <name>fecha_2</name>
+      </field>
+      <field>
+        <name>fecha_3</name>
+      </field>
+      <field>
+        <name>desc_1</name>
+      </field>
+      <field>
+        <name>desc_2</name>
+      </field>
+      <field>
+        <name>item</name>
+      </field>
+      <field>
+        <name>codigo_articulo</name>
+      </field>
+      <field>
+        <name>cantidad</name>
+      </field>
+      <field>
+        <name>ticket</name>
+      </field>
+      <field>
+        <name>filename</name>
+      </field>
+      <field>
+        <name>output</name>
+      </field>
+      <field>
+        <name>procesados</name>
+      </field>
+      <field>
+        <name>oldpath</name>
+      </field>
+      <field>
+        <name>shortname</name>
+      </field>
+      <field>
+        <name>path</name>
+      </field>
+      <field>
+        <name>pedido_nuevo</name>
+      </field>
+      <field>
+        <name>tipo_pedido</name>
+      </field>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>624</xloc>
+      <yloc>144</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>PROCESANDO ARCHIVO</name>
     <type>WriteToLog</type>
     <description/>
     <distribute>Y</distribute>
@@ -1319,15 +1128,6 @@ else { orden_compra2 = orden_compra; item_id2 = item_id }</jsScript_script>
       <field>
         <name>filename</name>
       </field>
-      <field>
-        <name>path</name>
-      </field>
-      <field>
-        <name>short_filename</name>
-      </field>
-      <field>
-        <name>archivo_a_procesar</name>
-      </field>
     </fields>
     <cluster_schema/>
     <remotesteps>
@@ -1337,94 +1137,8 @@ else { orden_compra2 = orden_compra; item_id2 = item_id }</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>80</xloc>
-      <yloc>48</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Remito Unificado</name>
-    <type>ConcatFields</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <separator>-</separator>
-    <enclosure/>
-    <enclosure_forced>N</enclosure_forced>
-    <enclosure_fix_disabled>N</enclosure_fix_disabled>
-    <header>N</header>
-    <footer>N</footer>
-    <format>DOS</format>
-    <compression>None</compression>
-    <encoding/>
-    <endedLine/>
-    <fileNameInField>N</fileNameInField>
-    <fileNameField/>
-    <create_parent_folder>Y</create_parent_folder>
-    <file>
-      <name>file</name>
-      <is_command>N</is_command>
-      <servlet_output>N</servlet_output>
-      <do_not_open_new_file_init>Y</do_not_open_new_file_init>
-      <extention>txt</extention>
-      <append>N</append>
-      <split>N</split>
-      <haspartno>N</haspartno>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <SpecifyFormat>N</SpecifyFormat>
-      <date_time_format/>
-      <add_to_result_filenames>Y</add_to_result_filenames>
-      <pad>N</pad>
-      <fast_dump>N</fast_dump>
-      <splitevery>0</splitevery>
-    </file>
-    <fields>
-      <field>
-        <name>remito_sucursal</name>
-        <type>Number</type>
-        <format>0000</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>both</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>remito_numero</name>
-        <type>Number</type>
-        <format>00000000</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>both</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-    </fields>
-    <ConcatFields>
-      <targetFieldName>remito_unificado</targetFieldName>
-      <targetFieldLength>0</targetFieldLength>
-      <removeSelectedFields>N</removeSelectedFields>
-    </ConcatFields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>656</xloc>
-      <yloc>80</yloc>
+      <xloc>144</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1441,10 +1155,16 @@ else { orden_compra2 = orden_compra; item_id2 = item_id }</jsScript_script>
     </partitioning>
     <fields>
       <field>
-        <name>procesado</name>
+        <name>filename</name>
       </field>
       <field>
-        <name>filename</name>
+        <name>nuevo_archivo</name>
+      </field>
+      <field>
+        <name>shortname</name>
+      </field>
+      <field>
+        <name>output</name>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -1456,14 +1176,14 @@ else { orden_compra2 = orden_compra; item_id2 = item_id }</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>896</xloc>
-      <yloc>320</yloc>
+      <xloc>496</xloc>
+      <yloc>336</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Set Variables</name>
-    <type>SetVariable</type>
+    <name>Splits</name>
+    <type>ScriptValueMod</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -1472,21 +1192,54 @@ else { orden_compra2 = orden_compra; item_id2 = item_id }</jsScript_script>
       <method>none</method>
       <schema_name/>
     </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+
+var shortname = filename.split(/[\\/]/).pop();
+var path = getParentFoldername(filename);
+
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
     <fields>
       <field>
-        <field_name>procesado</field_name>
-        <variable_name>procesado</variable_name>
-        <variable_type>JVM</variable_type>
-        <default_value/>
+        <name>shortname</name>
+        <rename>shortname</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
       </field>
       <field>
-        <field_name>filename</field_name>
-        <variable_name>filename</variable_name>
-        <variable_type>JVM</variable_type>
-        <default_value/>
+        <name>path</name>
+        <rename>path</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>pedido_nuevo</name>
+        <rename>pedido_nuevo</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>tipo_pedido</name>
+        <rename>tipo_pedido</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
       </field>
     </fields>
-    <use_formatting>Y</use_formatting>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1495,8 +1248,8 @@ else { orden_compra2 = orden_compra; item_id2 = item_id }</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1136</xloc>
-      <yloc>112</yloc>
+      <xloc>496</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1523,7 +1276,7 @@ else { orden_compra2 = orden_compra; item_id2 = item_id }</jsScript_script>
     <endedLine/>
     <fileNameInField>Y</fileNameInField>
     <fileNameField>nuevo_archivo</fileNameField>
-    <create_parent_folder>Y</create_parent_folder>
+    <create_parent_folder>N</create_parent_folder>
     <file>
       <name>J:\pdi-ce-8.0.0.0-28\data-integration\src\Deposito\orien\ingreso\output\${FILENAME}</name>
       <is_command>N</is_command>
@@ -1544,54 +1297,6 @@ else { orden_compra2 = orden_compra; item_id2 = item_id }</jsScript_script>
     </file>
     <fields>
       <field>
-        <name>remito_unificado</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>both</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>remito_fecha</name>
-        <type>Date</type>
-        <format>yyyyMMdd</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>both</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>espacio1</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>both</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>espacio2</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>both</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
         <name>empresa</name>
         <type>String</type>
         <format/>
@@ -1599,7 +1304,7 @@ else { orden_compra2 = orden_compra; item_id2 = item_id }</jsScript_script>
         <decimal/>
         <group/>
         <nullif/>
-        <trim_type>both</trim_type>
+        <trim_type>none</trim_type>
         <length>-1</length>
         <precision>-1</precision>
       </field>
@@ -1611,103 +1316,115 @@ else { orden_compra2 = orden_compra; item_id2 = item_id }</jsScript_script>
         <decimal/>
         <group/>
         <nullif/>
-        <trim_type>both</trim_type>
+        <trim_type>none</trim_type>
         <length>-1</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>orden_compra2</name>
-        <type>Number</type>
-        <format>0</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>both</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>proveedor_codigo</name>
+        <name>numero_pedido</name>
         <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
-        <trim_type>both</trim_type>
+        <trim_type>none</trim_type>
         <length>-1</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>obs</name>
+        <name>valor_10</name>
         <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
-        <trim_type>both</trim_type>
+        <trim_type>none</trim_type>
         <length>-1</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>item_id2</name>
-        <type>Number</type>
-        <format>0</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>both</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>tipo_ingreso</name>
+        <name>proveedor</name>
         <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
-        <trim_type>both</trim_type>
+        <trim_type>none</trim_type>
         <length>-1</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>producto_codigo</name>
+        <name>fecha_1</name>
         <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
-        <trim_type>both</trim_type>
+        <trim_type>none</trim_type>
         <length>-1</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>producto_cantidad</name>
-        <type>Number</type>
-        <format>0</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>both</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>status</name>
+        <name>fecha_2</name>
         <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
-        <trim_type>both</trim_type>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>blanco</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>item</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>codigo_articulo</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>cantidad</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
         <length>-1</length>
         <precision>-1</precision>
       </field>
@@ -1720,8 +1437,8 @@ else { orden_compra2 = orden_compra; item_id2 = item_id }</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>768</xloc>
-      <yloc>320</yloc>
+      <xloc>496</xloc>
+      <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1742,11 +1459,19 @@ else { orden_compra2 = orden_compra; item_id2 = item_id }</jsScript_script>
     <error_description/>
     <fields>
       <field>
-        <name>procesado</name>
+        <name>filename</name>
         <case_insensitive>N</case_insensitive>
       </field>
       <field>
-        <name>filename</name>
+        <name>nuevo_archivo</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>shortname</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>output</name>
         <case_insensitive>N</case_insensitive>
       </field>
     </fields>
@@ -1758,45 +1483,8 @@ else { orden_compra2 = orden_compra; item_id2 = item_id }</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1024</xloc>
-      <yloc>320</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Write to log</name>
-    <type>WriteToLog</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <loglevel>log_level_basic</loglevel>
-    <displayHeader>Y</displayHeader>
-    <limitRows>N</limitRows>
-    <limitRowsNumber>0</limitRowsNumber>
-    <logmessage/>
-    <fields>
-      <field>
-        <name>procesado</name>
-      </field>
-      <field>
-        <name>filename</name>
-      </field>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1264</xloc>
-      <yloc>320</yloc>
+      <xloc>640</xloc>
+      <yloc>336</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

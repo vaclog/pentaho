@@ -443,8 +443,8 @@
     <access>Native</access>
     <database>remito_qa</database>
     <port>3306</port>
-    <username>agribiz</username>
-    <password>Encrypted 2be98afc86ac69596a21ba76a8cc2fe82</password>
+    <username>remito_batch_depo</username>
+    <password>Encrypted 2be98afc86aa7b6d79b499d219ac1fd8b</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
