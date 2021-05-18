@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job>
-  <name>main</name>
+  <name>DrMartens_stock</name>
   <description/>
   <extended_description/>
   <job_version/>
+  <job_status>0</job_status>
   <directory>/</directory>
   <created_user>-</created_user>
-  <created_date>2020/06/19 16:13:16.238</created_date>
+  <created_date>2019/11/06 11:41:49.618</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2020/06/19 16:13:16.238</modified_date>
+  <modified_date>2019/11/06 11:41:49.618</modified_date>
   <parameters>
     </parameters>
   <slaveservers>
@@ -303,62 +304,16 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>96</xloc>
-      <yloc>112</yloc>
+      <xloc>160</xloc>
+      <yloc>160</yloc>
     </entry>
     <entry>
-      <name>Success</name>
-      <description/>
-      <type>SUCCESS</type>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>704</xloc>
-      <yloc>64</yloc>
-    </entry>
-    <entry>
-      <name>ArmoExcel</name>
+      <name>Transformation</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/salidas.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
-      <run_configuration>Pentaho local</run_configuration>
-      <parameters>
-        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>224</xloc>
-      <yloc>112</yloc>
-    </entry>
-    <entry>
-      <name>LeoNombredeArchivo</name>
-      <description/>
-      <type>TRANS</type>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/getfile.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/stock.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -386,7 +341,17 @@
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>352</xloc>
-      <yloc>32</yloc>
+      <yloc>96</yloc>
+    </entry>
+    <entry>
+      <name>Success</name>
+      <description/>
+      <type>SUCCESS</type>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>704</xloc>
+      <yloc>96</yloc>
     </entry>
     <entry>
       <name>Mail 2</name>
@@ -394,25 +359,16 @@
       <type>MAIL</type>
       <server>smtp.office365.com</server>
       <port>587</port>
-      <destination>esteban@penalty.com.ar daniel.flaibani@penaltyarg.com.ar cobranzas@penalty.com.ar </destination>
-      <destinationCc>ostuhldreher@vaclog.com lgutierrez@vaclog.com ggomez@vaclog.com dgutierrez@vaclog.com</destinationCc>
+      <destination>asagula@vaclog.com</destination>
+      <destinationCc>ostuhldreher@vaclog.com lgutierrez@vaclog.com ggomez@vaclog.com</destinationCc>
       <destinationBCc/>
       <replyto>VOTSInformes@vaclog.com</replyto>
       <replytoname>VACLOG WD - Reportes</replytoname>
-      <subject>PENALTY Reporte Diario de Estados de Pedido</subject>
+      <subject>ELCA STOCK - Fue procesado con error</subject>
       <include_date>Y</include_date>
       <contact_person>ostuhldreher@vaclog.com</contact_person>
       <contact_phone/>
-      <comment>Buenas Tardes,
-
-Adjuntamos el informe diario de Estado de Pedidos.
-
-Por cualquier consulta por favor contactarse con Osvaldo Stuhldreher, ostuhldreher@vaclog.com.
-
-Muchas gracias
-
-Saludos
-</comment>
+      <comment>El proceso de stock fue procesado con errores. Por favor comunicarse con sistemas</comment>
       <include_files>Y</include_files>
       <zip_files>N</zip_files>
       <zip_name/>
@@ -437,29 +393,14 @@ Saludos
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>512</xloc>
-      <yloc>32</yloc>
-    </entry>
-    <entry>
-      <name>Set variables</name>
-      <description/>
-      <type>SET_VARIABLES</type>
-      <replacevars>Y</replacevars>
-      <filename/>
-      <file_variable_type>JVM</file_variable_type>
-      <fields>
-      </fields>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>128</xloc>
+      <xloc>448</xloc>
       <yloc>224</yloc>
     </entry>
   </entries>
   <hops>
     <hop>
       <from>START</from>
-      <to>ArmoExcel</to>
+      <to>Transformation</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -467,25 +408,7 @@ Saludos
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>ArmoExcel</from>
-      <to>LeoNombredeArchivo</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>LeoNombredeArchivo</from>
-      <to>Mail 2</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>Mail 2</from>
+      <from>Transformation</from>
       <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -494,8 +417,17 @@ Saludos
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Set variables</from>
-      <to>ArmoExcel</to>
+      <from>Transformation</from>
+      <to>Mail 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Mail 2</from>
+      <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>

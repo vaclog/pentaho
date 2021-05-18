@@ -450,6 +450,10 @@
     <index_tablespace/>
     <attributes>
       <attribute>
+        <code>EXTRA_OPTION_MARIADB.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
       </attribute>
@@ -576,7 +580,7 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentNroDsp, S
     </partitioning>
     <connection>Remito Nube</connection>
     <schema/>
-    <table>vkm_ingresos</table>
+    <table>vkm_ingresos_03032021</table>
     <commit>500</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
@@ -593,8 +597,16 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentNroDsp, S
     <return_field/>
     <fields>
       <field>
+        <column_name>armado</column_name>
+        <stream_name>Armado</stream_name>
+      </field>
+      <field>
         <column_name>entidad</column_name>
         <stream_name>Entidad</stream_name>
+      </field>
+      <field>
+        <column_name>estado</column_name>
+        <stream_name>Estado</stream_name>
       </field>
       <field>
         <column_name>proveedor_codigo</column_name>
@@ -613,24 +625,12 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentNroDsp, S
         <stream_name>FechaFin</stream_name>
       </field>
       <field>
-        <column_name>documento</column_name>
-        <stream_name>Remito</stream_name>
-      </field>
-      <field>
         <column_name>cliente_id</column_name>
         <stream_name>ID.Cliente</stream_name>
       </field>
       <field>
-        <column_name>estado</column_name>
-        <stream_name>Estado</stream_name>
-      </field>
-      <field>
-        <column_name>cant_documento_unidad</column_name>
-        <stream_name>Cnt.Remito(Ud.)</stream_name>
-      </field>
-      <field>
-        <column_name>cant_documento_bulto</column_name>
-        <stream_name>Cnt.Remito(Bul.)</stream_name>
+        <column_name>documento</column_name>
+        <stream_name>Remito</stream_name>
       </field>
       <field>
         <column_name>cant_recibida_unidad</column_name>
@@ -641,11 +641,15 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentNroDsp, S
         <stream_name>Cnt.Recibida(Bul.)</stream_name>
       </field>
       <field>
-        <column_name>armado</column_name>
-        <stream_name>Armado</stream_name>
+        <column_name>cant_documento_unidad</column_name>
+        <stream_name>Cnt.Remito(Ud.)</stream_name>
       </field>
       <field>
-        <column_name>observaciones</column_name>
+        <column_name>cant_documento_bulto</column_name>
+        <stream_name>Cnt.Remito(Bul.)</stream_name>
+      </field>
+      <field>
+        <column_name>referencia</column_name>
         <stream_name>observaciones</stream_name>
       </field>
     </fields>

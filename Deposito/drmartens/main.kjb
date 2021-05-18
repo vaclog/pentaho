@@ -395,7 +395,7 @@
       <server>smtp.office365.com</server>
       <port>587</port>
       <destination>solc@jjshoes.com.ar lihuen@fantina.com.ar</destination>
-      <destinationCc>aachucarro@vaclog.com ostuhldreher@vaclog.com </destinationCc>
+      <destinationCc>aachucarro@vaclog.com ostuhldreher@vaclog.com lgutierrez@vaclog.com</destinationCc>
       <destinationBCc/>
       <replyto>VOTSInformes@vaclog.com</replyto>
       <replytoname>VACLOG WD - Reportes</replytoname>
