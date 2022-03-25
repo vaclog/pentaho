@@ -420,7 +420,7 @@
       <type>MAIL</type>
       <server>smtp.office365.com</server>
       <port>587</port>
-      <destination>loginbound@brother.com.ar aamaya@brother.com.ar cobranzas@brother.com.ar nferrari@brother.com.ar</destination>
+      <destination>loginbound@brother.com.ar rcampos@brother.com.ar cobranzas@brother.com.ar  fmerlo@brother.com.ar</destination>
       <destinationCc>ostuhldreher@vaclog.com lgutierrez@vaclog.com ggomez@vaclog.com</destinationCc>
       <destinationBCc/>
       <replyto>VOTSInformes@vaclog.com</replyto>

@@ -513,74 +513,10 @@
   <order>
     <hop>
       <from>Articulos VALKIMIA</from>
-      <to>ARTICULOS NUBE</to>
-      <enabled>N</enabled>
-    </hop>
-    <hop>
-      <from>Articulos VALKIMIA</from>
-      <to>ARTICULOS NUBE</to>
+      <to>Insert / Update</to>
       <enabled>Y</enabled>
     </hop>
   </order>
-  <step>
-    <name>ARTICULOS NUBE</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>Remito Nube</connection>
-    <schema/>
-    <table>vkm_articulos</table>
-    <commit>500</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-      <field>
-        <column_name>articulo_valkimia_id</column_name>
-        <stream_name>articulo_valkimia_id</stream_name>
-      </field>
-      <field>
-        <column_name>cliente_id</column_name>
-        <stream_name>cliente_id</stream_name>
-      </field>
-      <field>
-        <column_name>articulo_codigo</column_name>
-        <stream_name>articulo_codigo</stream_name>
-      </field>
-      <field>
-        <column_name>articulo_descripcion</column_name>
-        <stream_name>nombre</stream_name>
-      </field>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>432</xloc>
-      <yloc>112</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
   <step>
     <name>Articulos VALKIMIA</name>
     <type>TableInput</type>
@@ -599,7 +535,8 @@
 , ArtEntIDPr as cliente_id
 , ArtEtaId1 as articulo_codigo
 
-FROM ART
+FROM ART (nolock)
+order by ARTID
 </sql>
     <limit>0</limit>
     <lookup/>
@@ -615,6 +552,63 @@ FROM ART
     </remotesteps>
     <GUI>
       <xloc>256</xloc>
+      <yloc>112</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Insert / Update</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>Remito Nube</connection>
+    <commit>100</commit>
+    <update_bypassed>Y</update_bypassed>
+    <lookup>
+      <schema/>
+      <table>vkm_articulos</table>
+      <key>
+        <name>articulo_valkimia_id</name>
+        <field>IdArticulo</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>IdArticulo</name>
+        <rename>articulo_valkimia_id</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>articulo_descripcion</name>
+        <rename>nombre</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>articulo_codigo</name>
+        <rename>articulo_codigo</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cliente_id</name>
+        <rename>cliente_id</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>400</xloc>
       <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>

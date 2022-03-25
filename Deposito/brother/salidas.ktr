@@ -652,7 +652,7 @@ ORDER BY SEntFecAlt ASC</sql>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>8</length>
+        <length>10</length>
         <precision>-1</precision>
       </field>
       <field>
@@ -664,7 +664,7 @@ ORDER BY SEntFecAlt ASC</sql>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>8</length>
+        <length>10</length>
         <precision>-1</precision>
       </field>
       <field>

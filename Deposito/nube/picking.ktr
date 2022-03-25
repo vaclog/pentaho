@@ -437,11 +437,11 @@
   <notepads>
   </notepads>
   <connection>
-    <name>Remito Nube</name>
+    <name>Remito Nube PROD</name>
     <server>agribiz-db-us-east-2b.chiwaqowuag1.us-east-2.rds.amazonaws.com</server>
     <type>MARIADB</type>
     <access>Native</access>
-    <database>remito_test</database>
+    <database>remito_qa</database>
     <port>3306</port>
     <username>remito_admin</username>
     <password>Encrypted 2be98afc86aa7a485a815a1779ac3fd89</password>
@@ -513,10 +513,132 @@
   <order>
     <hop>
       <from>PICKING</from>
-      <to>PICKING NUBE</to>
+      <to>Insert / Update</to>
       <enabled>Y</enabled>
     </hop>
   </order>
+  <step>
+    <name>Insert / Update</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>Remito Nube PROD</connection>
+    <commit>100</commit>
+    <update_bypassed>Y</update_bypassed>
+    <lookup>
+      <schema/>
+      <table>vkm_picking</table>
+      <key>
+        <name>Armado</name>
+        <field>armado</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>armado</name>
+        <rename>Armado</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>entidad</name>
+        <rename>Entidad</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cliente_destino</name>
+        <rename>Cliente.Destino</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cliente_nombre</name>
+        <rename>Nombre</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>fecha_alta</name>
+        <rename>FechaAlta</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>fecha_fin</name>
+        <rename>FechaFin</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>documento</name>
+        <rename>Documento</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>pcc</name>
+        <rename>PCC</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cliente_id</name>
+        <rename>ID.Cliente</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>estado</name>
+        <rename>Estado</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>articulo_id</name>
+        <rename>Artid</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>articulo_codigo</name>
+        <rename>Artículo</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>articulo_descripcion</name>
+        <rename>Descripción</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cant_documento_unidad</name>
+        <rename>Cnt.documento(Ud.)</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cant_documento_bulto</name>
+        <rename>Cnt.documento(Bul.)</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cant_preparada_unidad</name>
+        <rename>Cnt.Preparada(Ud.)</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cant_preparada_bulto</name>
+        <rename>Cnt.Preparada(Bul.)</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>320</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
   <step>
     <name>PICKING</name>
     <type>TableInput</type>
@@ -539,7 +661,12 @@ from SENT1 S1 (nolock)
 inner join SENT S (nolock) on S1.SEntDocNro = S.SEntDocNro
 inner join ART (nolock) on SEntArtId = ARTID
 left join ENT (nolock) on SEntEntId = EntID
-where SentTVar = 'S' and SentTipUso = 'S'</sql>
+where SentTVar = 'S' and SentTipUso = 'S'
+and SEntFecAlt >= '2021-05-01'
+
+and S.SentEstEnt IN ('CAR' , 'PRE')
+
+order by SEntFecAlt asc</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -553,123 +680,8 @@ where SentTVar = 'S' and SentTipUso = 'S'</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>272</xloc>
-      <yloc>128</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>PICKING NUBE</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>Remito Nube</connection>
-    <schema/>
-    <table>vkm_picking</table>
-    <commit>1000</commit>
-    <truncate>N</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-      <field>
-        <column_name>armado</column_name>
-        <stream_name>Armado</stream_name>
-      </field>
-      <field>
-        <column_name>entidad</column_name>
-        <stream_name>Entidad</stream_name>
-      </field>
-      <field>
-        <column_name>documento</column_name>
-        <stream_name>Documento</stream_name>
-      </field>
-      <field>
-        <column_name>pcc</column_name>
-        <stream_name>PCC</stream_name>
-      </field>
-      <field>
-        <column_name>estado</column_name>
-        <stream_name>Estado</stream_name>
-      </field>
-      <field>
-        <column_name>cliente_destino</column_name>
-        <stream_name>Cliente.Destino</stream_name>
-      </field>
-      <field>
-        <column_name>cliente_nombre</column_name>
-        <stream_name>Nombre</stream_name>
-      </field>
-      <field>
-        <column_name>fecha_alta</column_name>
-        <stream_name>FechaAlta</stream_name>
-      </field>
-      <field>
-        <column_name>fecha_fin</column_name>
-        <stream_name>FechaFin</stream_name>
-      </field>
-      <field>
-        <column_name>cliente_id</column_name>
-        <stream_name>ID.Cliente</stream_name>
-      </field>
-      <field>
-        <column_name>articulo_id</column_name>
-        <stream_name>Artid</stream_name>
-      </field>
-      <field>
-        <column_name>articulo_codigo</column_name>
-        <stream_name>Artículo</stream_name>
-      </field>
-      <field>
-        <column_name>articulo_descripcion</column_name>
-        <stream_name>Descripción</stream_name>
-      </field>
-      <field>
-        <column_name>master</column_name>
-        <stream_name>Master/UxB</stream_name>
-      </field>
-      <field>
-        <column_name>cant_documento_unidad</column_name>
-        <stream_name>Cnt.documento(Ud.)</stream_name>
-      </field>
-      <field>
-        <column_name>cant_documento_bulto</column_name>
-        <stream_name>Cnt.documento(Bul.)</stream_name>
-      </field>
-      <field>
-        <column_name>cant_preparada_unidad</column_name>
-        <stream_name>Cnt.Preparada(Ud.)</stream_name>
-      </field>
-      <field>
-        <column_name>cant_preparada_bulto</column_name>
-        <stream_name>Cnt.Preparada(Bul.)</stream_name>
-      </field>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>448</xloc>
-      <yloc>112</yloc>
+      <xloc>96</xloc>
+      <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
