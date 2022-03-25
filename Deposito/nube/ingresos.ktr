@@ -437,11 +437,11 @@
   <notepads>
   </notepads>
   <connection>
-    <name>Remito Nube</name>
+    <name>Remito Nube Prod</name>
     <server>agribiz-db-us-east-2b.chiwaqowuag1.us-east-2.rds.amazonaws.com</server>
     <type>MARIADB</type>
     <access>Native</access>
-    <database>remito_test</database>
+    <database>remito_qa</database>
     <port>3306</port>
     <username>remito_admin</username>
     <password>Encrypted 2be98afc86aa7a485a815a1779ac3fd89</password>
@@ -513,7 +513,12 @@
   <order>
     <hop>
       <from>Ingresos</from>
-      <to>Ingresos NUBE</to>
+      <to>Sort rows</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows</from>
+      <to>Insert / Update</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -543,12 +548,17 @@ S.SentObs as 'observaciones',
 SUM(SEntIteCnt) as 'Cnt.Remito(Ud.)',
 SUM(SEntBulCnt) as 'Cnt.Remito(Bul.)', 
 SUM(SEntIteCon) as 'Cnt.Recibida(Ud.)', 
-SUM(SEntBulCnf) as 'Cnt.Recibida(Bul.)'
+SUM(SEntBulCnf) as 'Cnt.Recibida(Bul.)',
+S1.SEntDocNro as 'NroTareaIR'
 from SENT1 S1 (nolock)
 inner join SENT S (nolock) on S1.SEntDocNro = S.SEntDocNro
 left join ENT (nolock) on SEntEntId = EntID
-where SentTVar = 'E' and SentTipUso = 'E' and SEntEstEnt = 'CNF' 
-group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentNroDsp, S.LogEntId, S.SEntEstEnt, S.SentFecFin, S.SentObs</sql>
+where SentTVar = 'E' 
+  and SentTipUso = 'E' 
+  and SEntEstEnt = 'CNF' 
+  and S.SEntFecAlt >= '2021-05-01'
+group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentNroDsp, S.LogEntId, S.SEntEstEnt, S.SentFecFin, S.SentObs
+order by S1.SEntDocNro</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -562,14 +572,14 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentNroDsp, S
       </output>
     </remotesteps>
     <GUI>
-      <xloc>224</xloc>
-      <yloc>128</yloc>
+      <xloc>96</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Ingresos NUBE</name>
-    <type>TableOutput</type>
+    <name>Insert / Update</name>
+    <type>InsertUpdate</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -578,79 +588,133 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentNroDsp, S
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>Remito Nube</connection>
-    <schema/>
-    <table>vkm_ingresos_03032021</table>
-    <commit>500</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
+    <connection>Remito Nube Prod</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema/>
+      <table>vkm_ingresos</table>
+      <key>
+        <name>Armado</name>
+        <field>armado</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>armado</name>
+        <rename>Armado</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>entidad</name>
+        <rename>Entidad</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>estado</name>
+        <rename>Estado</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>NroTareaIR</name>
+        <rename>NroTareaIR</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>proveedor_codigo</name>
+        <rename>Proveedor</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>proveedor_nombre</name>
+        <rename>Nombre</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>fecha_alta</name>
+        <rename>FechaAlta</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>fecha_fin</name>
+        <rename>FechaFin</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>documento</name>
+        <rename>Remito</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cliente_id</name>
+        <rename>ID.Cliente</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>referencia</name>
+        <rename>observaciones</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cant_recibida_unidad</name>
+        <rename>Cnt.Recibida(Ud.)</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cant_recibida_bulto</name>
+        <rename>Cnt.Recibida(Bul.)</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cant_documento_unidad</name>
+        <rename>Cnt.Remito(Ud.)</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cant_documento_bulto</name>
+        <rename>Cnt.Remito(Bul.)</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>400</xloc>
+      <yloc>80</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <column_name>armado</column_name>
-        <stream_name>Armado</stream_name>
-      </field>
-      <field>
-        <column_name>entidad</column_name>
-        <stream_name>Entidad</stream_name>
-      </field>
-      <field>
-        <column_name>estado</column_name>
-        <stream_name>Estado</stream_name>
-      </field>
-      <field>
-        <column_name>proveedor_codigo</column_name>
-        <stream_name>Proveedor</stream_name>
-      </field>
-      <field>
-        <column_name>proveedor_nombre</column_name>
-        <stream_name>Nombre</stream_name>
-      </field>
-      <field>
-        <column_name>fecha_alta</column_name>
-        <stream_name>FechaAlta</stream_name>
-      </field>
-      <field>
-        <column_name>fecha_fin</column_name>
-        <stream_name>FechaFin</stream_name>
-      </field>
-      <field>
-        <column_name>cliente_id</column_name>
-        <stream_name>ID.Cliente</stream_name>
-      </field>
-      <field>
-        <column_name>documento</column_name>
-        <stream_name>Remito</stream_name>
-      </field>
-      <field>
-        <column_name>cant_recibida_unidad</column_name>
-        <stream_name>Cnt.Recibida(Ud.)</stream_name>
-      </field>
-      <field>
-        <column_name>cant_recibida_bulto</column_name>
-        <stream_name>Cnt.Recibida(Bul.)</stream_name>
-      </field>
-      <field>
-        <column_name>cant_documento_unidad</column_name>
-        <stream_name>Cnt.Remito(Ud.)</stream_name>
-      </field>
-      <field>
-        <column_name>cant_documento_bulto</column_name>
-        <stream_name>Cnt.Remito(Bul.)</stream_name>
-      </field>
-      <field>
-        <column_name>referencia</column_name>
-        <stream_name>observaciones</stream_name>
+        <name>Armado</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
       </field>
     </fields>
     <cluster_schema/>
@@ -661,8 +725,8 @@ group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, S.SentNroDsp, S
       </output>
     </remotesteps>
     <GUI>
-      <xloc>512</xloc>
-      <yloc>128</yloc>
+      <xloc>224</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

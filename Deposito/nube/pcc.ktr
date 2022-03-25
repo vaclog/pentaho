@@ -437,11 +437,11 @@
   <notepads>
   </notepads>
   <connection>
-    <name>Remito Nube</name>
+    <name>Remito Nube PROD</name>
     <server>agribiz-db-us-east-2b.chiwaqowuag1.us-east-2.rds.amazonaws.com</server>
     <type>MARIADB</type>
     <access>Native</access>
-    <database>remito_test</database>
+    <database>remito_qa</database>
     <port>3306</port>
     <username>remito_admin</username>
     <password>Encrypted 2be98afc86aa7a485a815a1779ac3fd89</password>
@@ -513,73 +513,10 @@
   <order>
     <hop>
       <from>pcc</from>
-      <to>PCC NUBE</to>
+      <to>Insert / Update</to>
       <enabled>Y</enabled>
     </hop>
   </order>
-  <step>
-    <name>PCC NUBE</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>Remito Nube</connection>
-    <schema/>
-    <table>vkm_pcc</table>
-    <commit>500</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-      <field>
-        <column_name>pcc_id</column_name>
-        <stream_name>ID.PCC</stream_name>
-      </field>
-      <field>
-        <column_name>fecha_creacion</column_name>
-        <stream_name>FechaCreación</stream_name>
-      </field>
-      <field>
-        <column_name>fecha_fin</column_name>
-        <stream_name>FechaFin</stream_name>
-      </field>
-      <field>
-        <column_name>estado</column_name>
-        <stream_name>Estado</stream_name>
-      </field>
-      <field>
-        <column_name>cant_etiqueta</column_name>
-        <stream_name>Cant.Etiquetas</stream_name>
-      </field>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>496</xloc>
-      <yloc>128</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
   <step>
     <name>pcc</name>
     <type>TableInput</type>
@@ -593,9 +530,14 @@
     </partitioning>
     <connection>VKM Prod</connection>
     <sql>select 
-Tr2DocId as 'ID.PCC', PCCFec as 'FechaCreación', MAX(Tr2AsgFecF) as 'FechaFin', PCCEST as 'Estado', COUNT(Tr2DocId) as 'Cant.Etiquetas'
-From STRA2 (nolock)
+		Tr2DocId as 'ID.PCC', 
+		PCCFec as 'FechaCreación', 
+		MAX(Tr2AsgFecF) as 'FechaFin', 
+		PCCEST as 'Estado', 
+		COUNT(Tr2DocId) as 'Cant.Etiquetas'
+ From STRA2 (nolock)
 inner join LOPCC (nolock) on Tr2DocId = PCCId
+where PCCFec >= '2021-05-01'
 group by Tr2DocId, PCCFec, PCCEST
 </sql>
     <limit>0</limit>
@@ -611,7 +553,69 @@ group by Tr2DocId, PCCFec, PCCEST
       </output>
     </remotesteps>
     <GUI>
-      <xloc>272</xloc>
+      <xloc>208</xloc>
+      <yloc>128</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Insert / Update</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>Remito Nube PROD</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema/>
+      <table>vkm_pcc</table>
+      <key>
+        <name>ID.PCC</name>
+        <field>pcc_id</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>pcc_id</name>
+        <rename>ID.PCC</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>fecha_creacion</name>
+        <rename>FechaCreación</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>fecha_fin</name>
+        <rename>FechaFin</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>estado</name>
+        <rename>Estado</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cant_etiqueta</name>
+        <rename>Cant.Etiquetas</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>432</xloc>
       <yloc>128</yloc>
       <draw>Y</draw>
     </GUI>

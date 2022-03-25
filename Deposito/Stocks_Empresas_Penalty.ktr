@@ -443,8 +443,8 @@
     <access>Native</access>
     <database>VKM_Prod</database>
     <port>1433</port>
-    <username/>
-    <password>Encrypted </password>
+    <username>vaclog</username>
+    <password>Encrypted 2be98afc86aa7f28ca415af349ac3fd89</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -467,7 +467,7 @@
       </attribute>
       <attribute>
         <code>MSSQLUseIntegratedSecurity</code>
-        <attribute>true</attribute>
+        <attribute>false</attribute>
       </attribute>
       <attribute>
         <code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code>

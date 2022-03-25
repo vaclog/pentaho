@@ -516,6 +516,7 @@
 , muelle_entrada + en_posicion + muelle_salida + 270 as 'Total'
 FROM vkm_posiciones_pivot
 where month(fecha_proceso) = month(curdate())
+AND year(fecha_proceso) = year(curdate())
 and cliente_id = 1032
 </sql>
     <limit>0</limit>
