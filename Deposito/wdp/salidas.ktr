@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>customers</name>
+    <name>salidas</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -437,116 +437,6 @@
   <notepads>
   </notepads>
   <connection>
-    <name>Remito Nube</name>
-    <server>agribiz-db-us-east-2b.chiwaqowuag1.us-east-2.rds.amazonaws.com</server>
-    <type>MARIADB</type>
-    <access>Native</access>
-    <database>remito_qa</database>
-    <port>3306</port>
-    <username>remito_admin</username>
-    <password>Encrypted 2be98afc86aa7a485a815a1779ac3fd89</password>
-    <servername/>
-    <data_tablespace/>
-    <index_tablespace/>
-    <attributes>
-      <attribute>
-        <code>EXTRA_OPTION_MARIADB.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>IS_CLUSTERED</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>PORT_NUMBER</code>
-        <attribute>3306</attribute>
-      </attribute>
-      <attribute>
-        <code>PRESERVE_RESERVED_WORD_CASE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>QUOTE_ALL_FIELDS</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>USE_POOLING</code>
-        <attribute>N</attribute>
-      </attribute>
-    </attributes>
-  </connection>
-  <connection>
-    <name>Remito_PROD</name>
-    <server>SRV-DB</server>
-    <type>MSSQL</type>
-    <access>Native</access>
-    <database>Remito_PROD</database>
-    <port>1433</port>
-    <username>vaclog</username>
-    <password>Encrypted 2be98afc86aa7f28ca415af349ac3fd89</password>
-    <servername/>
-    <data_tablespace/>
-    <index_tablespace/>
-    <attributes>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>IS_CLUSTERED</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>PORT_NUMBER</code>
-        <attribute>1433</attribute>
-      </attribute>
-      <attribute>
-        <code>PRESERVE_RESERVED_WORD_CASE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>QUOTE_ALL_FIELDS</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>USE_POOLING</code>
-        <attribute>N</attribute>
-      </attribute>
-    </attributes>
-  </connection>
-  <connection>
     <name>VKM Prod</name>
     <server>SRV-DB</server>
     <type>MSSQL</type>
@@ -603,38 +493,13 @@
   </connection>
   <order>
     <hop>
-      <from>Customers VALKIMIA</from>
-      <to>Sort rows</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Data Grid</from>
-      <to>Sort rows 2</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Sort rows</from>
-      <to>Unión por Clave</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Sort rows 2</from>
-      <to>Unión por Clave</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Unión por Clave</from>
-      <to>Insert / Update</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Unión por Clave</from>
-      <to>Insert / Update 2</to>
+      <from>SALIDAS</from>
+      <to>Text file output</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Customers VALKIMIA</name>
+    <name>SALIDAS</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -645,45 +510,31 @@
       <schema_name/>
     </partitioning>
     <connection>VKM Prod</connection>
-    <sql>SELECT
-
-ENT.EntEntIDC as codigo,
- ENT.EntID as codigo_valkimia,
-ENT.EntNombre as nombre,
-ENT. EntTDINum as cuit,
-
-isnull(ENT21.LEnDir, ' ') as calle, 
-isnull(LCL.LclNom, ' ') as localidad, 
-isnull(LCL.LclCP,' ') as codigo_postal, 
-isnull(PNC.PncNom,' ') as provincia,
-0 as disabled,
-'pentaho' as created_by,
-
-ENT6.EntLogId as valkimia_client_id,
-CURRENT_TIMESTAMP as created_at
-
-
-
-FROM ENT (nolock)
-left join ENT21 (nolock) on Ent21.EntID = ENT.EntID
-left join LCL (nolock) on LCL.LclID = ENT21.LEnLclID
-left join PNC (nolock) on PNC.PncID = LCL.PncID
-left join ENT6 (nolock) on ENT6.EntId = Ent.EntID
-where 
---EntID = 1055
-Ent6.EntLogId IN(
-12685, 
-12716, 
-12700,
-12710)
---AND ENT.EntId NOT IN ( select codigo_valkimia 
--- 						 FROM Remito_Prod.dbo.customers_replicated)
-
-
-
-
-
-</sql>
+    <sql>select 
+S1.SEntDocNro as 'Armado', EntID as 'Entidad', EntEntIdC as 'Cliente.Destino', 
+EntNombre as 'Nombre',
+CONVERT(VARCHAR(30), SEntFecAlt, 103) as 'FechaAlta', 
+CONVERT(VARCHAR(30), S.SentFecFin, 103) as 'FechaFin', 
+S.SentPCCId as 'PCC', 
+CASE WHEN PCCFec IS NULL THEN 'Pendiente de Entrega'
+ELSE CONVERT(VARCHAR(30), PCCFec, 103) 
+END AS 'FechaPCC',
+S.SentNroDsp as 'Delivery', 
+S.LogEntId as 'ID.Cliente', 
+S.SEntEstEnt as 'Estado', 
+S.SentObs as 'Observación',
+SUM(SEntIteCnt) as 'Ud.Pedidas', SUM(SEntIteCon) as 'Ud.Preparadas'
+from SENT1 (nolock) S1
+inner join SENT S (nolock) on S1.SEntDocNro = S.SEntDocNro
+left join ENT (nolock) on SEntEntId = EntID
+left join LOPCC on SentPCCId = PCCId
+where SentTVar = 'S' and SentTipUso = 'S' and  SEntEstEnt &lt;&gt; 'ANU'
+AND SEntFecAlt >= DATEADD(Day, -35, GETDATE())
+AND SEntFecAlt >= '2020-08-01'
+AND S.LogEntId = 12710
+group by s1.SEntDocNro, EntID, EntEntIdC, EntNombre, SEntFecAlt, 
+S.SentFecFin, S.SentPCCId, PCCFec, S.SentNroDsp, S.LogEntId, S.SEntEstEnt, S.SentObs
+ORDER BY SEntFecAlt ASC</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -697,80 +548,14 @@ Ent6.EntLogId IN(
       </output>
     </remotesteps>
     <GUI>
-      <xloc>80</xloc>
-      <yloc>80</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Data Grid</name>
-    <type>DataGrid</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>valkimia_client_id</name>
-        <type>Integer</type>
-        <format>#</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>15</length>
-        <precision>0</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>client_id</name>
-        <type>Integer</type>
-        <format>#</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>15</length>
-        <precision>0</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-    <data>
-      <line>
-        <item>12716</item>
-        <item>6</item>
-      </line>
-      <line>
-        <item>12685</item>
-        <item>7</item>
-      </line>
-      <line>
-        <item>12700</item>
-        <item>9</item>
-      </line>
-      <line>
-        <item>12710</item>
-        <item>8</item>
-      </line>
-    </data>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
       <xloc>96</xloc>
-      <yloc>192</yloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Insert / Update</name>
-    <type>InsertUpdate</type>
+    <name>Text file output</name>
+    <type>TextFileOutput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -779,224 +564,205 @@ Ent6.EntLogId IN(
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>Remito Nube</connection>
-    <commit>100</commit>
-    <update_bypassed>N</update_bypassed>
-    <lookup>
-      <schema/>
-      <table>customers</table>
-      <key>
-        <name>codigo</name>
-        <field>codigo</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>codigo_valkimia</name>
-        <field>codigo_valkimia</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>client_id</name>
-        <field>client_id</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>codigo</name>
-        <rename>codigo</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>codigo_valkimia</name>
-        <rename>codigo_valkimia</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>nombre</name>
-        <rename>nombre</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>cuit</name>
-        <rename>cuit</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>calle</name>
-        <rename>calle</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>localidad</name>
-        <rename>localidad</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>provincia</name>
-        <rename>provincia</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>disabled</name>
-        <rename>disabled</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>client_id</name>
-        <rename>client_id</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>audit_created_by</name>
-        <rename>created_by</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>created_at</name>
-        <rename>created_at</rename>
-        <update>Y</update>
-      </value>
-    </lookup>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>672</xloc>
-      <yloc>128</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Insert / Update 2</name>
-    <type>InsertUpdate</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>Remito_PROD</connection>
-    <commit>100</commit>
-    <update_bypassed>N</update_bypassed>
-    <lookup>
-      <schema/>
-      <table>customers_replicated</table>
-      <key>
-        <name>codigo</name>
-        <field>codigo</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>codigo_valkimia</name>
-        <field>codigo_valkimia</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>client_id</name>
-        <field>client_id</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>codigo</name>
-        <rename>codigo</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>codigo_valkimia</name>
-        <rename>codigo_valkimia</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>nombre</name>
-        <rename>nombre</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>cuit</name>
-        <rename>cuit</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>calle</name>
-        <rename>calle</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>localidad</name>
-        <rename>localidad</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>provincia</name>
-        <rename>provincia</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>client_id</name>
-        <rename>client_id</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>created_by</name>
-        <rename>created_by</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>created_at</name>
-        <rename>created_at</rename>
-        <update>Y</update>
-      </value>
-    </lookup>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>592</xloc>
-      <yloc>240</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Sort rows</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
+    <separator>;</separator>
+    <enclosure>"</enclosure>
+    <enclosure_forced>Y</enclosure_forced>
+    <enclosure_fix_disabled>Y</enclosure_fix_disabled>
+    <header>Y</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
+    <encoding>windows-1252</encoding>
+    <endedLine/>
+    <fileNameInField>N</fileNameInField>
+    <fileNameField/>
+    <create_parent_folder>Y</create_parent_folder>
+    <file>
+      <name>${Internal.Entry.Current.Directory}/reporte</name>
+      <is_command>N</is_command>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>N</do_not_open_new_file_init>
+      <extention>CSV</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>Y</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
     <fields>
       <field>
-        <name>valkimia_client_id</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
+        <name>Armado</name>
+        <type>Integer</type>
+        <format>####0;-####0</format>
+        <currency/>
+        <decimal>,</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>8</length>
+        <precision>0</precision>
+      </field>
+      <field>
+        <name>Entidad</name>
+        <type>Integer</type>
+        <format>####0;-####0</format>
+        <currency/>
+        <decimal>,</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>9</length>
+        <precision>0</precision>
+      </field>
+      <field>
+        <name>Cliente.Destino</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>20</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>Nombre</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>both</trim_type>
+        <length>35</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>FechaAlta</name>
+        <type>Date</type>
+        <format>dd/MM/yyyy</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>8</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>FechaFin</name>
+        <type>Date</type>
+        <format>dd/MM/yyyy</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>8</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>PCC</name>
+        <type>Integer</type>
+        <format>####0;-####0</format>
+        <currency/>
+        <decimal>,</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>8</length>
+        <precision>0</precision>
+      </field>
+      <field>
+        <name>FechaPCC</name>
+        <type>Date</type>
+        <format>dd/MM/yyyy</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>30</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>Delivery</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>20</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ID.Cliente</name>
+        <type>Integer</type>
+        <format>####0;-####0</format>
+        <currency/>
+        <decimal>,</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>9</length>
+        <precision>0</precision>
+      </field>
+      <field>
+        <name>Estado</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>3</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>Observación</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>both</trim_type>
+        <length>255</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>Ud.Pedidas</name>
+        <type>Integer</type>
+        <format>####0;-####0</format>
+        <currency/>
+        <decimal>.</decimal>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>8</length>
+        <precision>0</precision>
+      </field>
+      <field>
+        <name>Ud.Preparadas</name>
+        <type>Integer</type>
+        <format>####0;-####0</format>
+        <currency/>
+        <decimal>.</decimal>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>8</length>
+        <precision>0</precision>
       </field>
     </fields>
     <cluster_schema/>
@@ -1007,82 +773,8 @@ Ent6.EntLogId IN(
       </output>
     </remotesteps>
     <GUI>
-      <xloc>208</xloc>
-      <yloc>80</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Sort rows 2</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>valkimia_client_id</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>240</xloc>
-      <yloc>192</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Unión por Clave</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <join_type>INNER</join_type>
-    <step1>Sort rows</step1>
-    <step2>Sort rows 2</step2>
-    <keys_1>
-      <key>valkimia_client_id</key>
-    </keys_1>
-    <keys_2>
-      <key>valkimia_client_id</key>
-    </keys_2>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>368</xloc>
-      <yloc>128</yloc>
+      <xloc>320</xloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

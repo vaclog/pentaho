@@ -1,0 +1,21 @@
+short_filename;filename;path
+FC-OEI-547.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEI-547.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
+FC-OEP-7595.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEP-7595.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
+FC-OEP-7596.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEP-7596.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
+FC-OEP-7597.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEP-7597.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
+FC-OEP-7598.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEP-7598.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
+FC-OEP-7599.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEP-7599.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
+FC-OEP-7600.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEP-7600.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
+FC-OEP-7601.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEP-7601.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
+FC-OEP-7602.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEP-7602.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
+FC-OEP-7603.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEP-7603.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
+FC-OEP-7604.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEP-7604.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
+FC-OEP-7605.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEP-7605.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
+FC-OEP-7606.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEP-7606.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
+FC-OEP-7607.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEP-7607.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
+FC-OEP-7608.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEP-7608.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
+FC-OEP-7609.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEP-7609.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
+FC-OEP-7610.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEP-7610.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
+FC-OEP-7611.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEP-7611.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
+FC-OEP-7612.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEP-7612.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
+FC-OEP-7613.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta\FC-OEP-7613.CSV;C:\Users\ValkUser\OneDrive - VACLOG\Orien\nota_venta
