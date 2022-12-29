@@ -5,3 +5,11 @@ Deposito/posiciones/reporte_posiciones_20200917.csv
 *.xlsx
 *.xls
 *.pdf
+*.log
+*.7z
+logs/*.txt
+querys_mysql/*
+logs
+querys_mysql
+Remito_automatico
+salida_excel

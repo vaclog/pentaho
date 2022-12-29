@@ -1,0 +1,1 @@
+call sp_cron_procesa_remitos_v2('%s');
