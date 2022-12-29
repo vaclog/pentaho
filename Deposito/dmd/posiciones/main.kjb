@@ -420,7 +420,7 @@
       <type>MAIL</type>
       <server>smtp.office365.com</server>
       <port>587</port>
-      <destination>ostuhldreher@vaclog.com lgutierrez@vaclog.com ggomez@vaclog.com</destination>
+      <destination>ostuhldreher@vaclog.com lgutierrez@vaclog.com dgutierrez@vaclog.com jdesanmartin@vaclog.com</destination>
       <destinationCc/>
       <destinationBCc/>
       <replyto>VOTSInformes@vaclog.com</replyto>

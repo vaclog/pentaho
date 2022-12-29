@@ -872,10 +872,46 @@
         <hyperlinkField/>
       </field>
       <field>
+        <name>% de Cumplimiento</name>
+        <type>Number</type>
+        <format>0.00%</format>
+        <title/>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
         <name>Observación</name>
         <type>String</type>
         <format/>
         <title>Observación</title>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>Estado de Entrega</name>
+        <type>String</type>
+        <format/>
+        <title/>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>Fecha de Entrega</name>
+        <type>Timestamp</type>
+        <format>m/d/yy h:mm</format>
+        <title/>
         <titleStyleCell/>
         <styleCell/>
         <commentField/>
@@ -925,13 +961,17 @@ S1.SEntArtDsc as 'Articulo',
 ART.ArtEtaId1 as 'Descripcion',
 
 SEntIteCnt as 'Ud.Pedidas', SEntIteCon as 'Ud.Preparadas',
-S.SentObs as 'Observación'
+SentIteCon / SEntIteCnt as "% de Cumplimiento",
+S.SentObs as 'Observación',
+Mobi.Estado as 'Estado de Entrega',
+Mobi.fecha_entrega as 'Fecha de Entrega'
 
 from SENT1 (nolock) S1
 inner join SENT S (nolock) on S1.SEntDocNro = S.SEntDocNro
 left join ENT (nolock) on SEntEntId = EntID
 left join LOPCC on SentPCCId = PCCId
 left join ART on ART.ARTID = S1.SEntArtId
+left join Remito_PROD.dbo.mobiwork_process Mobi on Mobi.armado = S1.SEntDocNro
 where SentTVar = 'S' and SentTipUso = 'S' and  SEntEstEnt &lt;&gt; 'ANU'
 AND SEntFecAlt >= DATEADD(Day, -35, GETDATE())
 AND SEntFecAlt >= '2020-08-01'

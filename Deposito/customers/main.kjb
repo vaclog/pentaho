@@ -367,7 +367,7 @@
       <include_date>Y</include_date>
       <contact_person/>
       <contact_phone/>
-      <comment>Se produjo un error al actualizar los datos de la prefacturacion</comment>
+      <comment>Se produjo un error al actualizar customers</comment>
       <include_files>Y</include_files>
       <zip_files>N</zip_files>
       <zip_name/>

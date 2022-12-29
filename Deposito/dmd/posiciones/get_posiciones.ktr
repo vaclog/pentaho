@@ -438,7 +438,7 @@
   </notepads>
   <connection>
     <name>Remito Nube</name>
-    <server>agribiz-db-us-east-2b.chiwaqowuag1.us-east-2.rds.amazonaws.com</server>
+    <server>agribiz-cluster.cluster-chiwaqowuag1.us-east-2.rds.amazonaws.com</server>
     <type>MARIADB</type>
     <access>Native</access>
     <database>remito_qa</database>

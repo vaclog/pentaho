@@ -683,6 +683,11 @@
         <format/>
       </field>
       <field>
+        <name>categoria</name>
+        <type>String</type>
+        <format/>
+      </field>
+      <field>
         <name>articulo_cantidad</name>
         <type>BigNumber</type>
         <format/>
@@ -869,14 +874,18 @@
     </partitioning>
     <connection>Prod</connection>
     <sql>SELECT D.DEPID AS deposito_id, A.ArtEtaId1 AS articulo_codigo,    A.ArtNom AS articulo_nombre,
+	C.CatNom as 'categoria',
 	sum(D.DepCntDisF) AS articulo_cantidad , D.depposc as pocision
 FROM DEPUBI D
 LEFT JOIN ART A ON A.ARTID = D.DepArtId
+
+LEFT JOIN ART2 A2 ON A.ARTID = A2.ARTID
+LEFT JOIN CAT C ON C.CatID = A2.CatID
 WHERE D.DepUbiPrv = 1034
 
 AND D.DepArtId != 0
 
-GROUP BY A.ArtEtaId1, A.ArtNom, D.DEPID, D.depposc</sql>
+GROUP BY A.ArtEtaId1, A.ArtNom, D.DEPID, D.depposc, C.CatNom</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>

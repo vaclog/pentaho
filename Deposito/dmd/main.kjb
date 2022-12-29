@@ -395,8 +395,8 @@
       <type>MAIL</type>
       <server>smtp.office365.com</server>
       <port>587</port>
-      <destination>jonatan@dmdinternational.com.ar administracion@dmdinternational.com.ar deposito@dmdinternational.com.ar</destination>
-      <destinationCc>friquelme@vaclog.com ostuhldreher@vaclog.com lgutierrez@vaclog.com</destinationCc>
+      <destination>jonatan@dmdinternational.com.ar administracion@dmdinternational.com.ar deposito@dmdinternational.com.ar gerencia.ventas@dmdinternational.com.ar</destination>
+      <destinationCc>friquelme@vaclog.com ostuhldreher@vaclog.com lgutierrez@vaclog.com asagula@vaclog.com</destinationCc>
       <destinationBCc/>
       <replyto>VOTSInformes@vaclog.com</replyto>
       <replytoname>VACLOG WD - Reportes</replytoname>

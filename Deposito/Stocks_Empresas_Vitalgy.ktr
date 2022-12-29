@@ -872,7 +872,7 @@
 	sum(D.DepCntDisF) AS articulo_cantidad , D.depposc as pocision
 FROM DEPUBI D
 LEFT JOIN ART A ON A.ARTID = D.DepArtId
-WHERE D.DepUbiPrv = 12685
+WHERE D.DepUbiPrv = 12685 
 
 AND D.DepArtId != 0
 
